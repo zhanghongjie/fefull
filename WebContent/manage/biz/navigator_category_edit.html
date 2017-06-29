@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!--# include("/manage/comm.html"){}-->
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/webuploader.css"/>
+	<script type="text/javascript" src="${ctx}/js/webuploader.min.js"></script>
+	<script type="text/javascript" src="${ctx}/js/linkBoxForJQ.js"></script>
+	<style type="text/css">
+		.pointer{
+			cursor: pointer;
+		}
+		.div{
+			border: 1px solid #000000;
+		}
+		#qryTable{border-collapse:collapse;border:none;}
+		#qryTable td{border:solid #aed0ea 1px;padding: 5px};
+		.td-label {
+			font-size: 12px;
+		}
+	</style>
+</head>
+<body>
+<div id="mask">
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" style="height: 100%;">
+  <tr>
+	    <td class="pl10" valign="top">
+			<form action="" method="post" id="dataForm">
+				<div class="row dashed p3 mt5">
+				<table id="qryTable" cellpadding="0" cellspacing="0" width="100%" border="0">
+					<tbody>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("FK会员表，字段为空表示系统数据")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="FK_MEMBER" name="bizNavigatorCategory.FK_MEMBER" style="width: 168px" value="${bizNavigatorCategory.FK_MEMBER !''}" placeholder='${lanCfg("FK会员表，字段为空表示系统数据")}'/>
+																		</td>
+													<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("分类名称")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="CATEGORY_NAME" name="bizNavigatorCategory.CATEGORY_NAME" style="width: 168px" value="${bizNavigatorCategory.CATEGORY_NAME !''}" placeholder='${lanCfg("分类名称")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("是否属于系统分类（1是0否）")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="IS_SYSTEM" name="bizNavigatorCategory.IS_SYSTEM" style="width: 168px" value="${bizNavigatorCategory.IS_SYSTEM !''}" placeholder='${lanCfg("是否属于系统分类（1是0否）")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="MEMO" name="bizNavigatorCategory.MEMO" style="width: 168px" value="${bizNavigatorCategory.MEMO !''}" placeholder='${lanCfg("")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td colspan="6" class="td-btn tc">
+									<button id="saveBtn" type="button" class="blue_btn w100">${lanCfg("修改")}</button>
+									<button id="resetBtn" type="button" class="blue_btn w100">${lanCfg("重置")}</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<input type="hidden" id="PK_NAVIGATOR_CATEGORY" name="bizNavigatorCategory.PK_NAVIGATOR_CATEGORY" value=""/>
+		</form>
+		</td>
+	  </tr>
+</table>
+</div>
+<script type="text/javascript">
+$(function(){
+	//validIllegalChar检验非法字符
+	var rulesObj = new Object();
+		    rulesObj["bizNavigatorCategory.CATEGORY_NAME"] = {maxlength: 50, required: true};
+	    rulesObj["bizNavigatorCategory.IS_SYSTEM"] = {maxlength: 50, required: true};
+	
+	$("#dataForm").validate({
+		rules: rulesObj
+	});
+	$("#saveBtn").click(function(){
+		if(!$("#dataForm").valid()) {return false;}
+		$("#mask").mask('${lanCfg("正在保存中")}...');
+		var datas = $("#dataForm").serialize();
+		var url = "${ctx}/navigatorCategory/edit4Form?vcode=${reUserObj.vcode}";
+		$.post(url,datas,function(result){
+			if(!result || result.flag!=1){
+				alert(result.msg);
+			}else{
+				alert('${lanCfg("操作成功")}！');
+			}
+			$("#mask").unmask();
+		});
+	});
+	$("#resetBtn").click(function(){
+		_reset("dataForm");
+	});
+	 
+});
+</script>
+</body>
+</html>

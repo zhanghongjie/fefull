@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!--# include("/manage/comm.html"){}-->
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/webuploader.css"/>
+	<script type="text/javascript" src="${ctx}/js/webuploader.min.js"></script>
+	<script type="text/javascript" src="${ctx}/js/linkBoxForJQ.js"></script>
+	<style type="text/css">
+		.pointer{
+			cursor: pointer;
+		}
+		.div{
+			border: 1px solid #000000;
+		}
+		#qryTable{border-collapse:collapse;border:none;}
+		#qryTable td{border:solid #aed0ea 1px;padding: 5px};
+		.td-label {
+			font-size: 12px;
+		}
+	</style>
+</head>
+<body>
+<div id="mask">
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" style="height: 100%;">
+  <tr>
+	    <td class="pl10" valign="top">
+			<form action="" method="post" id="dataForm">
+				<div class="row dashed p3 mt5">
+				<table id="qryTable" cellpadding="0" cellspacing="0" width="100%" border="0">
+					<tbody>
+						<tr>
+							<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("FK文章表")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="FK_ARTICLE" name="bizArticleCollection.FK_ARTICLE" style="width: 168px" value="${bizArticleCollection.FK_ARTICLE !''}" placeholder='${lanCfg("FK文章表")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("FK会员")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="FK_MEMBER" name="bizArticleCollection.FK_MEMBER" style="width: 168px" value="${bizArticleCollection.FK_MEMBER !''}" placeholder='${lanCfg("FK会员")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("本条记录会员用户创建者ID")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="MEMBER_CREATE_BY_ID" name="bizArticleCollection.MEMBER_CREATE_BY_ID" style="width: 168px" value="${bizArticleCollection.MEMBER_CREATE_BY_ID !''}" placeholder='${lanCfg("本条记录会员用户创建者ID")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("本条记录会员用户创建时间")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="MEMBER_CREATE_BY_TIME" name="bizArticleCollection.MEMBER_CREATE_BY_TIME" style="width: 168px" value="${bizArticleCollection.MEMBER_CREATE_BY_TIME !''}" placeholder='${lanCfg("本条记录会员用户创建时间")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("本条记录会员用户修改者ID")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="MEMBER_UPDATE_BY_ID" name="bizArticleCollection.MEMBER_UPDATE_BY_ID" style="width: 168px" value="${bizArticleCollection.MEMBER_UPDATE_BY_ID !''}" placeholder='${lanCfg("本条记录会员用户修改者ID")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("本条记录会员用户修改时间")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="MEMBER_UPDATE_BY_TIME" name="bizArticleCollection.MEMBER_UPDATE_BY_TIME" style="width: 168px" value="${bizArticleCollection.MEMBER_UPDATE_BY_TIME !''}" placeholder='${lanCfg("本条记录会员用户修改时间")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td colspan="6" class="td-btn tc">
+									<button id="saveBtn" type="button" class="blue_btn w100">${lanCfg("修改")}</button>
+									<button id="resetBtn" type="button" class="blue_btn w100">${lanCfg("重置")}</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<input type="hidden" id="PK_ARTICLE_COLLECTION" name="bizArticleCollection.PK_ARTICLE_COLLECTION" value=""/>
+		</form>
+		</td>
+	  </tr>
+</table>
+</div>
+<script type="text/javascript">
+$(function(){
+	//validIllegalChar检验非法字符
+	var rulesObj = new Object();
+		    rulesObj["bizArticleCollection.FK_ARTICLE"] = {maxlength: 50, required: true};
+	
+	$("#dataForm").validate({
+		rules: rulesObj
+	});
+	$("#saveBtn").click(function(){
+		if(!$("#dataForm").valid()) {return false;}
+		$("#mask").mask('${lanCfg("正在保存中")}...');
+		var datas = $("#dataForm").serialize();
+		var url = "${ctx}/articleCollection/edit4Form?vcode=${reUserObj.vcode}";
+		$.post(url,datas,function(result){
+			if(!result || result.flag!=1){
+				alert(result.msg);
+			}else{
+				alert('${lanCfg("操作成功")}！');
+			}
+			$("#mask").unmask();
+		});
+	});
+	$("#resetBtn").click(function(){
+		_reset("dataForm");
+	});
+	 
+});
+</script>
+</body>
+</html>

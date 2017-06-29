@@ -1,0 +1,8 @@
+jdbcUrl = jdbc:mysql://localhost:3306/fefull?characterEncoding=GBK&zeroDateTimeBehavior=convertToNull
+user = root
+password = 
+devMode = true
+
+initialSize=1
+minIdle=1
+maxActive=20

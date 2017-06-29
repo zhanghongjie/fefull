@@ -1,0 +1,10 @@
+target/*
+/target
+.settings/
+.tomcatplugin
+.classpath
+.project
+.idea/
+work/
+logs/
+WebContent/WEB-INF/classes/*

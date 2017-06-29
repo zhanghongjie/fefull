@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/skin.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/thecss.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/base.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/js/jquery-loadmask-0.4/jquery.loadmask.css"/>
+	<script type="text/javascript" src="${ctx}/js/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="${ctx}/js/jquery-loadmask-0.4/jquery.loadmask.min.js"></script>
+	<style type="text/css">
+		ul li .rootMenu{
+			border:solid #red 1px;
+			background-color: #red;
+			
+		}
+		.btn{display:inline-block;padding:6px 12px;margin-bottom:0;font-size:12px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px}.btn:focus,.btn:active:focus,.btn.active:focus,.btn.focus,.btn:active.focus,.btn.active.focus{outline:thin dotted;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}.btn:hover,.btn:focus,.btn.focus{color:#333;text-decoration:none}.btn:active,.btn.active{background-image:none;outline:0;-webkit-box-shadow:inset 0 3px 5px rgba(0,0,0,.125);box-shadow:inset 0 3px 5px rgba(0,0,0,.125)}.btn.disabled,.btn[disabled],fieldset[disabled] .btn{pointer-events:none;cursor:not-allowed;filter:alpha(opacity=65);-webkit-box-shadow:none;box-shadow:none;opacity:.65}
+		.btn-info{color:#fff;background-color:#5bc0de;border-color:#46b8da}.btn-info:hover,.btn-info:focus,.btn-info.focus,.btn-info:active,.btn-info.active,.open>.dropdown-toggle.btn-info{color:#fff;background-color:#31b0d5;border-color:#269abc}.btn-info:active,.btn-info.active,.open>.dropdown-toggle.btn-info{background-image:none}.btn-info.disabled,.btn-info[disabled],fieldset[disabled] .btn-info,.btn-info.disabled:hover,.btn-info[disabled]:hover,fieldset[disabled] .btn-info:hover,.btn-info.disabled:focus,.btn-info[disabled]:focus,fieldset[disabled] .btn-info:focus,.btn-info.disabled.focus,.btn-info[disabled].focus,fieldset[disabled] .btn-info.focus,.btn-info.disabled:active,.btn-info[disabled]:active,fieldset[disabled] .btn-info:active,.btn-info.disabled.active,.btn-info[disabled].active,fieldset[disabled] .btn-info.active{background-color:#5bc0de;border-color:#46b8da}.btn-info .badge{color:#5bc0de;background-color:#fff}
+	</style>
+</head>
+<body>
+<div id="mask">
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td valign="top" bgcolor="#FFFFFF" style="padding:10px 0px 10px 0px;">
+
+	<table width="96%" border="0" align="center" cellpadding="0" cellspacing="0" class="tabs_table">
+     <tr>
+       <td width="2%"></td>
+       <td width="13%" height="30" class="tab_actived"><a href="${ctx}/role?vcode=${reUserObj.vcode}" class="a2">${lanCfg("角色列表")}</a></td>
+       <td width="10" class="tab_locked"></td>
+       <td width="13%" class="tab_normals">${lanCfg("增加角色")}</td>
+       <td width="10" class="tab_locked"></td>
+       <td width="13%" class="tab_actived"><a href="javascript:void(0);" class="a2">${lanCfg("修改角色")}</a></td>
+       <td class="tab_locked">&nbsp;</td>
+       </tr>
+    </table>
+	<table width="96%" border="0" align="center" cellpadding="0" cellspacing="0" class="input_table5">
+	  <tr>
+	    <th width="18%" height="36" align="right">${lanCfg("角色名称")}：</th>
+	    <td width="82%" class="pl10"><input id="role_name" name="role_name" type="text" class="text1" style="width:430px;" maxlength="40" /></td>
+	    </tr>
+	  <tr>
+	    <th height="36" align="right">${lanCfg("分配权限")}：</th>
+	    <td  class="pall10"><div class="js_qx_list2">
+	    	<!--#
+				if(menuList!=null){
+					-->
+	     				<ul class="root">
+					<!--# 
+					for(itemList in menuList){
+						for(menu in itemList){
+							if(menu.PID=='0'){
+					-->
+								<li class="rootMenu targtMenu" value='${menu.PK_MENU}'>
+				      				<input type="checkbox" name="ck" value='${menu.PK_MENU}' class="menu_id"/>
+						        	${menu.MENU_NAME}:
+				      			</li>
+							<!--#
+							}else{
+							-->
+							  	<li class="itemMenu targtMenu">
+						          <input type="checkbox" name="ck" value='${menu.PK_MENU}' class="menu_id"/>
+							          ${menu.MENU_NAME}:
+						        </li>
+							<!--#
+							}
+						}
+					}
+					-->
+		      		</ul>
+					<!--#
+				}
+			-->
+      </div> 
+      <div class="c"></div>
+      <div><input type="checkbox" id="ckall" onclick="checkEvent('ck','ckall')"  />&nbsp;${lanCfg("全选")}</div>       
+        </td>
+	    </tr>
+	  <tr>
+	    <th height="48" align="right">&nbsp;</th>
+	    <td class="pl10">
+			<button id="addBtn" type="button" class="btn btn-info">${lanCfg("新增角色")}</button>
+		</td>
+	    </tr>
+     <tbody id="tbody1">                                                                                 
+     </tbody>   
+    </table></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+</div>
+<script type="text/javascript">
+
+	$(function(){
+		
+		$("#addBtn").click(function(){
+			var obj = {};
+			var list = [];
+			obj.roleName = $("#role_name").val();
+			if(!obj.roleName){
+				alert('${lanCfg("请输入角色名")}！');
+				return false;
+			}
+	    	$("#mask").mask('${lanCfg("正在添加请稍等")}...');
+	    	$(".root").each(function(){
+				var _this = $(this);
+				var menu = "";
+				/* _this.find(".itemMenu").each(function(index){
+					var flag = 0;
+					if($(this).find(".menu_id").prop('checked')){
+						if(flag==0){
+							menu += $(this).parent().children().first().val();
+							list.push(menu);
+							menu = "";
+							flag = 1;
+						}
+						menu += $(this).find(".menu_id").val()
+						list.push(menu);
+						menu = "";
+					}
+				}); */
+				_this.find(".targtMenu").each(function(){
+					if($(this).find(".menu_id").prop('checked')){
+						menu += $(this).find(".menu_id").val();
+						list.push(menu);
+						menu = "";
+					}
+				});
+			});
+	    	obj.menuList = list.join("0X22");
+			obj.roleName = $("#role_name").val();
+			
+			
+			$.post("${ctx}/role/roleAddAjax?vcode=${reUserObj.vcode}",obj,function(result){
+				$("#mask").unmask();
+				if(result.flag=="1"){
+					alert('${lanCfg("增加角色成功")}！');
+					window.location.href = "${ctx}/role?vcode=${reUserObj.vcode}";
+				}else if(result.flag=="-1"){
+					alert('${lanCfg("增加的角色名已经存在")}！');
+					$("#role_name").focus();
+				}else{
+					alert('${lanCfg("增加角色失败")}！');
+				}
+			});
+		});
+		
+	});
+	function alertAllPrpos(obj) {
+	    // 用来保存所有的属性名称和值
+	    var props = "";
+	    // 开始遍历
+	    for(var p in obj){
+	        // 方法
+	        if(typeof(obj[p])=="function"){
+	            //obj[p]();
+	        }else{
+	            // p 为属性名称，obj[p]为对应属性的值
+	            props += p + "=" + obj[p] + "; ";
+	        }
+	    }
+	    // 最后显示所有的属性
+	    alert(props);
+	 }
+	
+	function checkEvent(name,allCheckId)
+	{
+	  var allCk=document.getElementById(allCheckId);
+	  if(allCk.checked==true)
+	  checkAll(name);
+	  else
+	  checkAllNo(name);
+	  
+	}
+
+	//全选
+	function checkAll(name)
+	{
+	  var names=document.getElementsByName(name);
+	  var len=names.length;
+	  if(len>0)
+	  {
+	   var i=0;
+	   for(i=0;i<len;i++)
+	   names[i].checked=true;
+	    
+	  }
+	}
+
+	//全不选
+	function checkAllNo(name)
+	{
+	  var names=document.getElementsByName(name);
+	 var len=names.length;
+	 if(len>0)
+	  {
+	    var i=0;
+	    for(i=0;i<len;i++)
+	    names[i].checked=false;
+	  }
+	}
+</script>
+</body>
+</html>

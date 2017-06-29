@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!--# include("/manage/comm.html"){}-->
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/webuploader.css"/>
+	<script type="text/javascript" src="${ctx}/js/webuploader.min.js"></script>
+	<script type="text/javascript" src="${ctx}/js/linkBoxForJQ.js"></script>
+	<style type="text/css">
+		.pointer{
+			cursor: pointer;
+		}
+		.div{
+			border: 1px solid #000000;
+		}
+		#qryTable{border-collapse:collapse;border:none;}
+		#qryTable td{border:solid #aed0ea 1px;padding: 5px};
+		.td-label {
+			font-size: 12px;
+		}
+	</style>
+</head>
+<body>
+<div id="mask">
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" style="height: 100%;">
+  <tr>
+	    <td class="pl10" valign="top">
+			<form action="" method="post" id="dataForm">
+				<div class="row dashed p3 mt5">
+				<table id="qryTable" cellpadding="0" cellspacing="0" width="100%" border="0">
+					<tbody>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("FK会员表")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="FK_MEMBER" name="bizArticle.FK_MEMBER" style="width: 168px" value="${bizArticle.FK_MEMBER !''}" placeholder='${lanCfg("FK会员表")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("FK文章分类表")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="FK_ARTICLE_CATEGORY" name="bizArticle.FK_ARTICLE_CATEGORY" style="width: 168px" value="${bizArticle.FK_ARTICLE_CATEGORY !''}" placeholder='${lanCfg("FK文章分类表")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("文章标题")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="TITLE" name="bizArticle.TITLE" style="width: 168px" value="${bizArticle.TITLE !''}" placeholder='${lanCfg("文章标题")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("文章顶部图片")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="TOP_PICTURE" name="bizArticle.TOP_PICTURE" style="width: 168px" value="${bizArticle.TOP_PICTURE !''}" placeholder='${lanCfg("文章顶部图片")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("文章顶部图片缩略图")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="TOP_PICTURE_MIN" name="bizArticle.TOP_PICTURE_MIN" style="width: 168px" value="${bizArticle.TOP_PICTURE_MIN !''}" placeholder='${lanCfg("文章顶部图片缩略图")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("文章封面图片")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="COVER_PICTURE" name="bizArticle.COVER_PICTURE" style="width: 168px" value="${bizArticle.COVER_PICTURE !''}" placeholder='${lanCfg("文章封面图片")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("文章封面图片缩略图")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="COVER_PICTURE_MIN" name="bizArticle.COVER_PICTURE_MIN" style="width: 168px" value="${bizArticle.COVER_PICTURE_MIN !''}" placeholder='${lanCfg("文章封面图片缩略图")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("文章内容")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="CONTENT" name="bizArticle.CONTENT" style="width: 168px" value="${bizArticle.CONTENT !''}" placeholder='${lanCfg("文章内容")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("发表时间")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="PUBLISHED_DATE" name="bizArticle.PUBLISHED_DATE" style="width: 168px" value="${bizArticle.PUBLISHED_DATE !''}" placeholder='${lanCfg("发表时间")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("是否原创（1是0否）")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="IS_ORIGINAL" name="bizArticle.IS_ORIGINAL" style="width: 168px" value="${bizArticle.IS_ORIGINAL !''}" placeholder='${lanCfg("是否原创（1是0否）")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("转载地址")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="REPRINT_ADDRESS" name="bizArticle.REPRINT_ADDRESS" style="width: 168px" value="${bizArticle.REPRINT_ADDRESS !''}" placeholder='${lanCfg("转载地址")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="MEMO" name="bizArticle.MEMO" style="width: 168px" value="${bizArticle.MEMO !''}" placeholder='${lanCfg("")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("本条记录会员用户创建者ID")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="MEMBER_CREATE_BY_ID" name="bizArticle.MEMBER_CREATE_BY_ID" style="width: 168px" value="${bizArticle.MEMBER_CREATE_BY_ID !''}" placeholder='${lanCfg("本条记录会员用户创建者ID")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("本条记录会员用户创建时间")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="MEMBER_CREATE_BY_TIME" name="bizArticle.MEMBER_CREATE_BY_TIME" style="width: 168px" value="${bizArticle.MEMBER_CREATE_BY_TIME !''}" placeholder='${lanCfg("本条记录会员用户创建时间")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("本条记录会员用户修改者ID")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="MEMBER_UPDATE_BY_ID" name="bizArticle.MEMBER_UPDATE_BY_ID" style="width: 168px" value="${bizArticle.MEMBER_UPDATE_BY_ID !''}" placeholder='${lanCfg("本条记录会员用户修改者ID")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("本条记录会员用户修改时间")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="MEMBER_UPDATE_BY_TIME" name="bizArticle.MEMBER_UPDATE_BY_TIME" style="width: 168px" value="${bizArticle.MEMBER_UPDATE_BY_TIME !''}" placeholder='${lanCfg("本条记录会员用户修改时间")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td colspan="6" class="td-btn tc">
+									<button id="saveBtn" type="button" class="blue_btn w100">${lanCfg("修改")}</button>
+									<button id="resetBtn" type="button" class="blue_btn w100">${lanCfg("重置")}</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<input type="hidden" id="PK_ARTICLE" name="bizArticle.PK_ARTICLE" value=""/>
+		</form>
+		</td>
+	  </tr>
+</table>
+</div>
+<script type="text/javascript">
+$(function(){
+	//validIllegalChar检验非法字符
+	var rulesObj = new Object();
+		    rulesObj["bizArticle.TITLE"] = {maxlength: 50, required: true};
+	
+	$("#dataForm").validate({
+		rules: rulesObj
+	});
+	$("#saveBtn").click(function(){
+		if(!$("#dataForm").valid()) {return false;}
+		$("#mask").mask('${lanCfg("正在保存中")}...');
+		var datas = $("#dataForm").serialize();
+		var url = "${ctx}/article/edit4Form?vcode=${reUserObj.vcode}";
+		$.post(url,datas,function(result){
+			if(!result || result.flag!=1){
+				alert(result.msg);
+			}else{
+				alert('${lanCfg("操作成功")}！');
+			}
+			$("#mask").unmask();
+		});
+	});
+	$("#resetBtn").click(function(){
+		_reset("dataForm");
+	});
+	 
+});
+</script>
+</body>
+</html>

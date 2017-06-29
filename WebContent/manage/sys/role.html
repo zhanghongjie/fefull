@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/skin.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/thecss.css"/>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/base.css"/>
+	<script type="text/javascript" src="${ctx}/js/jquery-1.9.0.min.js"></script>
+</head>
+<body>
+	<table width="100%" height="100%" border="0" cellpadding="0"
+		cellspacing="0">
+		<tr>
+			<td valign="top" bgcolor="#FFFFFF"
+				style="padding: 10px 0px 10px 0px;">
+
+				<table width="96%" border="0" align="center" cellpadding="0"
+					cellspacing="0" class="tabs_table">
+					<tr>
+						<td width="2%"></td>
+						<td width="13%" height="30" class="tab_normals">${lanCfg("角色列表")}</td>
+						<td width="10" class="tab_locked"></td>
+						<td width="13%" class="tab_actived"><a href="${ctx}/role/roleAdd?vcode=${reUserObj.vcode}" class="a2">${lanCfg("增加角色")}</a></td>
+						<td width="10" class="tab_locked"></td>
+						<td width="13%" class="tab_actived"><a
+							href="javascript:void(0);" class="a2">${lanCfg("修改角色")}</a></td>
+						<td class="tab_locked">&nbsp;</td>
+					</tr>
+				</table>
+				<table width="96%" border="0" align="center" cellpadding="0"
+					cellspacing="0" class="input_table4">
+					<tr>
+						<th width="21%">${lanCfg("角色名称")}</th>
+						<th>${lanCfg("拥有权限")}</th>
+						<th width="12%">${lanCfg("操作")}</th>
+					</tr>
+					<tbody id="tbody1">
+						<!--#
+							if(roleMenuList!=null){
+								for(itemList in roleMenuList){
+						-->
+									<tr>
+										<td align="center">${lanCfg(itemList[0].ROLE_NAME)}</td>
+											<td align="left" class="pall10">
+												<div class="js_qx_list">
+													<ul>
+									<!--# 
+									if(itemList.~size >0 ){
+										for(item in itemList){
+											if(item.MENU_NAME!=null){
+										-->
+												<li>
+													${lanCfg(item.MENU_NAME)}
+												</li> 
+										<!--# 	
+											}
+										}
+									}
+									-->
+									
+														</ul>
+												</div>
+											</td>
+											<td align="center">
+												<img src="${ctx}/images/tb1.gif" width="13" height="11" />
+												<a href="${ctx}/role/roleEdit?roleName=${itemList[0].ROLE_NAME}&roleId=${itemList[0].PK_ROLE}&vcode=${reUserObj.vcode}" class="a1">${lanCfg("编辑")}</a> <a id="delLink" href="javascript:void(0);" onclick="del('${itemList[0].PK_ROLE}')" class="a1">${lanCfg("删除")}</a>
+											</td>
+										</tr>
+						<!--#
+								}
+							}
+						  -->
+					</tbody>
+				</table>
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#tbody1 tr:odd').addClass('odd');
+		$('#tbody1 tr:even').addClass('even');
+		$('#tbody1 tr').hover(function() {
+			$(this).addClass("hover");
+		}, function() {
+			$(this).removeClass("hover");
+		});
+	});
+	function del(roleId){
+		if(window.confirm('${lanCfg("您确定要删除本记录吗")}？')){
+			var url = "${ctx}/role/roleDel?vcode=${reUserObj.vcode}&roleId="+roleId;
+			$.post(url,{},function(){
+				location.reload();
+			});
+		}
+	}
+</script>
+</body>
+
+</html>

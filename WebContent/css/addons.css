@@ -1,0 +1,250 @@
+/*!
+ * 快切——开源中文css框架 v1.0
+ *
+ * Copyright 2014 kuai.qietu.com, Inc
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ */
+ 
+ /**
+ 命名规范
+ * $codex 1. id和class命名采用该版块的英文单词或组合命名，并第一个单词小写，第二个单词首个字母大写，如:quickCss（最新产品/quick+Css)
+ * $codex 2. CSS样式表各区块用注释说明
+ * $codex 3. 尽量使用英文命名原则
+ * $codex 4. 尽量不加中杠和下划线
+ * $codex 5. 尽量不缩写，除非一看就明白的单词
+ * $hack :ie 6 _  \ ie7 *+ \  ie6,ie7 *  \  ie7,firefox !important ie9, \9
+*/
+/*背景颜色*/
+.bg-h-grey{ background:#494332;}
+.bg-l-grey{ background:#a69257;}
+.bg-n-grey{ background:#e1d8bb;}
+.bg-white{ background:#FFFFFF;}
+.bg-l-red{ background:#ff7d63;}
+.bg-l-green{ background:#48c9b0;}
+.bg-l-gold{ background:#f1ecd6;}
+/*边框颜色*/
+.bo-h-grey{ border:1px solid #494332;}
+.bo-l-grey{ border:1px solid #a69257;}
+.bo-n-grey{ border:1px solid #e1d8bb;}
+.bo-bot-n-grey{ border-bottom:1px solid #756d55;}
+
+.test{border:1px solid #000000;background: #FFFFFF;}
+
+/*文字排版*/
+.f12{font-size:12px;}
+.f13{font-size:13px;}
+.f14{font-size:14px;}
+.f16{font-size:16px;}
+.f20{font-size:20px;}
+.fb{font-weight:bold}
+.fn{font-weight:normal;}
+.t2{text-indent:2em;}
+.lh150{line-height:150%;}
+.lh180{line-height:180%;}
+.lh200{line-height:200%;}
+.unl{text-decoration:underlline;}
+.no_unl{text-decoration:none;}
+
+/*文字颜色*/
+.blue{color: #1a72bc;}
+.gold{color: #fff8df;}
+.h-gold{color: #ccbb4b;}
+.black{color: #000000;}
+.white{color: #FFFFFF;}
+.h-grey{ color:#494332;}
+
+/*定位*/
+.tl{text-align:left; }
+.tc{text-align:center;}
+.tr{text-align:right;}
+.bc{margin-left:auto;margin-right:auto; _text-align:center;}
+.fl{float:left;display:inline;}
+.fr{float:right;display:inline;}
+.cb{clear:both;}
+.cl{clear:left;}
+.cr{clear:rigth;}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+.vm{verticle-align:middle;}
+.pr{position:relative;}
+.pa{position:absolute;}
+.abs-right{position:absolute;right:0}
+.zoom{zoom:1;}
+.hidden{visiility:hidden;}
+.none{display:none;}
+
+/*长度高度*/
+.w10{width:10px;}
+.w20{width:20px;}
+.w30{width:30px;}
+.w40{width:40px;}
+.w50{width:50px;}
+.w60{width:60px;}
+.w70{width:70px;}
+.w80{width:80px;}
+.w90{width:90px;}
+.w100{width:100px;}
+.w200{width:200px;}
+.w300{width:300px;}
+.w400{width:400px;}
+.w500{width:500px;}
+.w600{width:600px;}
+.w700{width:700px;}
+.w800{width:800px;}
+.w900{width:900px;}
+
+.wb5{width:5%;}
+.wb10{width:10%;}
+.wb20{width:20%;}
+.wb25{width:25%;}
+.wb29{width:29%;}
+.wb30{width:30%;}
+.wb40{width:40%;}
+.wb50{width:50%;}
+.wb60{width:60%;}
+.wb70{width:70%;}
+.wb80{width:80%;}
+.wb90{width:90%;}
+.wb95{width:95%;}
+.wb98{width:98%;}
+.wb99{width:99%;}
+.wb100{width:100%;}
+
+.w{width:100%}
+
+.h25{height:25px;}
+.h30{height:30px;}
+.h35{height:35px;}
+.h50{height:50px;}
+.h80{height:80px;}
+.h100{height:100px;}
+.h200{height:200px;}
+.h180{height:180px;}
+.h500{height:500px;}
+.h600{hei5ht:600px;}
+
+.hb10{height:10%;}
+.hb20{height:20%;}
+.hb30{height:30%;}
+.hb40{height:40%;}
+.hb50{height:50%;}
+.hb60{height:60%;}
+.hb70{height:70%;}
+.hb80{height:80%;}
+.hb90{height:90%;}
+.hb100{height:100%;}
+.h{height:100%}
+
+.lh30{line-height: 30px;}
+.lh35{line-height: 35px;}
+
+/*边距*/
+.m0{margin:0px;}
+.m1{margin:1px;}
+.m3{margin:3px;}
+.m5{margin:5px;}
+.m10{margin:10px;}
+.m15{margin:15px;}
+.m30{margin:30px;}
+.mt2{margin-top:2px;}
+.mt5{margin-top:5px;}
+.mt0{margin-top:0px;}
+.mt10{margin-top:10px;}
+.mt15{margin-top:15px;}
+.mt20{margin-top:20px;}
+.mt30{margin-top:30px;}
+.mt50{margin-top:50px;}
+.mt80{margin-top:80px;}
+.mt100{margin-top:100px;}
+.mb5{margin-bottom:5px;}
+.mb10{margin-bottom:10px;}
+.mb15{margin-bottom:15px;}
+.mb20{margin-bottom:20px;}
+.mb30{margin-bottom:30px;}
+.mb50{margin-bottom:50px;}
+.mb100{margin-bottom:100px;}
+.ml0{margin-left:0px;}
+.ml5{margin-left:5px;}
+.ml10{margin-left:10px;}
+.ml15{margin-left:15px;}
+.ml20{margin-left:20px;}
+.ml30{margin-left:30px;}
+.ml50{margin-left:50px;}
+.ml100{margin-left:100px;}
+.mr5{margin-right:5px;}
+.mr10{margin-right:10px;}
+.mr15{margin-right:15px;}
+.mr20{margin-right:20px;}
+.mr30{margin-right:30px;}
+.mr50{margin-right:50px;}
+.mr100{margin-right:100px;}
+.p0{padding:0px;}
+.p1{padding:1px;}
+.p5{padding:5px;}
+.p3{padding:3px;}
+.p10{padding:10px;}
+.p15{padding:15px;}
+.p30{padding:30px;}
+.p40{padding:30px;}
+.p50{padding:30px;}
+.p60{padding:30px;}
+.p70{padding:30px;}
+.p80{padding:30px;}
+.p90{padding:30px;}
+.p100{padding:30px;}
+.pt5{padding-top:5px;}
+.pt10{padding-top:10px;}
+.pt15{padding-top:15px;}
+.pt20{padding-top:20px;}
+.pt30{padding-top:30px;}
+.pt50{padding-top:50px;}
+.pt100{padding-top:100px;}
+.pb5{padding-bottom:5px;}
+.pb10{padding-bottom:10px;}
+.pb15{padding-bottom:15px;}
+.pb20{padding-bottom:20px;}
+.pb30{padding-bottom:30px;}
+.pb50{padding-bottom:50px;}
+.pb100{padding-bottom:100px;}
+.pl5{padding-left:5px;}
+.pl6{padding-left:6px;}
+.pl10{padding-left:10px;}
+.pl15{padding-left:15px;}
+.pl20{padding-left:20px;}
+.pl30{padding-left:30px;}
+.pl50{padding-left:50px;}
+.pl100{padding-left:100px;}
+.pr5{padding-right:5px;}
+.pr10{padding-right:10px;}
+.pr15{padding-right:15px;}
+.pr20{padding-right:20px;}
+.pr30{padding-right:30px;}
+.pr50{padding-right:50px;}
+.pr100{padding-right:100px;}
+body{background-color: #f4f4f4;font-size: 12px;}
+/*圆角*/
+.round {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius:10px;
+	-ms-border-radius:10px;
+}
+/*固定页面底部*/
+.fixedBottom{
+position:fixed; bottom:100px; 
+_position:absolute; _bottom:100px;
+_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginBottom,10)||100)));
+width:100%; 
+}
+/*固定页面顶部*/
+.fixedTop{
+position:fixed; top:0px;left: 0px; 
+/* _position:absolute; _top:100px;
+_top:expression(eval(document.documentElement.scrollTop+(parseInt(this.currentStyle.marginTop,10)||100))); */
+width:100%; 
+z-index:2000;
+}
+
+
+

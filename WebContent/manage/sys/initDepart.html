@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="${session["base"]}/css/jquery-ui-1.10.3.custom.min.css" />
+<link rel="stylesheet" type="text/css" href="${session["base"]}/css/ui.jqgridb.css" />
+<link rel="stylesheet" type="text/css" href="${session["base"]}/css/base.css">
+<link rel="stylesheet" type="text/css" href="${session["base"]}/js/jquery-loadmask-0.4/jquery.loadmask.css">
+<script type="text/javascript" src="${session["base"]}/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="${session["base"]}/js/jquery-ui-1.10.3.custom.js"></script>
+<script type="text/javascript" src="${session["base"]}/js/jquery.jqGrid.src.js"></script>
+<script type="text/javascript" src="${session["base"]}/js/grid.locale-cn.js"></script>
+<script type="text/javascript" src="${session["base"]}/js/jquery-loadmask-0.4/jquery.loadmask.min.js"></script>
+<style type="text/css">
+.txt {
+	height: 40px;
+	line-height: 40px;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.div {
+	border: 1px solid #000000;
+}
+
+.ui-widget {
+	font-size: 15px;
+}
+
+body {
+	font-size: 12px;
+}
+.ui-widget{font-size: 12px;}
+
+#qryTable{border-collapse:collapse;border:none;}
+#qryTable td{border:solid #aed0ea 1px;padding: 5px};
+</style>
+</head>
+<body>
+<div id="mask">
+	<div class="container mt10">
+		<div class="row dashed p5">
+			<div style="background:no-repeat url('${session["base"]}/images/gear.png');padding-left: 20px">
+				当前位置：${menuName!'未知'}
+			</div>
+		</div>
+		<div class="row dashed p3 mt5">
+			<table id="qryTable" style="width: 100%">
+				<tr>
+					<td class="w100 bgWhite">机构名称：</td>
+					<td class="w100">
+						<input type="text" id="departName" name="departName">
+					</td>
+					<td>
+						<#if menuOper??> <#if
+						(menuOper.operSel=='1')>
+						<button id="qryBtn" type="button" class="blue_btn w100 ml20">查询</button>
+						</#if> </#if> 
+					</td>
+					<td class="w100 bgWhite">已选机构ID：</td>
+					<td class="w100">
+						<input type="text" id="departSelId" name="departSelId" value="${departSelId}">
+					</td>
+					<td>
+						<#if menuOper??> <#if
+						(menuOper.operUp=='1')>
+						<button id="saveBtn" type="button" class="blue_btn w100 ml20">保存</button>
+						</#if> </#if> 
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="row mt10">
+			<div id="datadiv" class="col-xs-12" style="display: none">
+				<table id="list"></table>
+				<div id="pager"></div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+$(function(){
+	var gridWidth = $(window).width()-$(window).width()*0.03;
+	$("#list").jqGrid({
+	    datatype:"json",
+	    mtype: "post",
+	    url:'${session["base"]}/initDepart/list',
+	    colNames:["编号","机构","机构编号","机构地址","机构联系方式","机构负责人","操作"],
+	    colModel:[
+	      {name:"id",width:2,align:"center",hidden:true},
+	      {name:"depart_name",width:5,align:"center",editable:true,edittype:'text'},
+	      {name:"depart_code",width:5,align:"center",editable:true,edittype:'text'},
+	      {name:"depart_address",width:5,align:"center",editable:true,edittype:'text'},
+	      {name:"depart_phone",width:5,align:"center",editable:true,edittype:'text'},
+	      {name:"depart_user",width:5,align:"center",editable:true,edittype:'text'},
+	      {name:'operateFun',index:'operateFun', width:5,align:"center",editable:false,edittype:'text',formatter:editInit}
+	      ],
+	    rownumbers:true,
+	    rowNum:10,
+        //autowidth: true,
+        //shrinkToFit: true,
+	    rowList:[10],
+		altRows:true,//隔行变色
+		altclass:'altclass',//隔行变色样式
+	    gridview:true, //加速显示
+	    viewrecords: true,  //viewrecords:确定是否显示总的记录条数,默认为false
+	   // multiselect: false,  //可多选，出现多选框
+	   // multiselectWidth: 25, //设置多选列宽度
+	    pager: '#pager',//定义数据浏览导航分页条。这必须是一个有效的html元素；在例子中，我们定义的是id为pager的div元素。导航层可以放在任何地方。
+	    caption: "机构列表",
+	    prmNames : {
+	        page:"nowPage",    // 表示请求页码的参数名称
+	        rows:"pageSize",    // 表示请求行数的参数名称
+	        sort: "id", // 表示用于排序的列名的参数名称
+	        order: "desc", // 表示采用的排序方式的参数名称
+	        search:"_search", // 表示是否是搜索请求的参数名称
+	        nd:"nd", // 表示已经发送请求的次数的参数名称
+	        id:"id", // 表示当在编辑数据模块中发送数据时，使用的id的名称
+	        oper:"oper",    // operation参数名称（我暂时还没用到）
+	        editoper:"edit", // 当在edit模式中提交数据时，操作的名称
+	        addoper:"add", // 当在add模式中提交数据时，操作的名称
+	        deloper:"del", // 当在delete模式中提交数据时，操作的名称
+	        subgridid:"id", // 当点击以载入数据到子表时，传递的数据名称
+	        npage: null,
+	        totalrows:"totalrows"
+	    }  ,
+	    jsonReader: {
+	    	 repeatitems:false,
+	 	     rows: "pageSize",               // 每页数据行（默认为：rows）
+	 	     total: "totalPage",        // 总页数
+	 	     page: "nowPage",            // 当前页
+	 	     records: "records",    // integer 只读属性，定义了返回的记录数
+	 	     root: "reList"
+		    },
+		    width:gridWidth,
+		    height:250
+	  }).navGrid("#pager",{edit:false,add:false,del:false,search:false});
+	  $("#datadiv").show();
+
+	  $("#qryBtn").click(function(){
+	      $("#list").setGridParam({
+			 url:'${session["base"]}/depart/list',
+			 postData:{"departName":$("#departName").val()},
+			 page:1
+	      }).trigger("reloadGrid"); //重新载入
+	      $("#datadiv").show();
+	 });
+	  $("#saveBtn").click(function(){
+		  save();
+	 });
+	  $(".divwintitle").each(function(){
+		  alert($(this).html());
+	  });
+});
+ //编辑按钮初始化
+ function editInit(cellvalue, options, rawObject) {
+	 var detail = "";
+	 <#if menuOper??>
+		<#if (menuOper.operUp=="1")>
+			detail+="<a class='pointer' style='color:blue' onclick=sel('"+ rawObject.id + "')>选择</a>";
+		</#if>
+	</#if>
+  return detail;
+ };
+
+function sel(id){
+	$("#departSelId").val(id);
+}
+function save(){
+	var  rowid = $("#list").getGridParam("selrow");
+	var url = "${session["base"]}/initDepart/save";
+	var obj = {};
+	obj.departSelId = $("#departSelId").val(); 
+
+	$("#mask").mask("保存中...");
+	$.post(url,obj,function(result){
+		$("#mask").unmask();
+	});
+}
+function alertAllPrpos(obj) {
+    // 用来保存所有的属性名称和值
+    var props = "";
+    // 开始遍历
+    for(var p in obj){
+        // 方法
+        if(typeof(obj[p])=="function"){
+            //obj[p]();
+        }else{
+            // p 为属性名称，obj[p]为对应属性的值
+            props += p + "=" + obj[p] + "; ";
+        }
+    }
+    // 最后显示所有的属性
+    alert(props);
+ }
+
+</script>
+</html>

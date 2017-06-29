@@ -1,0 +1,55 @@
+/* CSS Reset */
+body, div, span, applet, object, iframe,input, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, hr { padding: 0; margin: 0; }
+table { border-collapse: collapse; border-spacing: 0; }
+caption{ text-align:left;}
+ins{ text-decoration: none;}
+del{ text-decoration: line-through;}
+input,select{ vertical-align:middle;}
+input,textarea,select{font:12px 'Î¢ÈíÑÅºÚ';  }
+fieldset, img { border: 0; }
+address,code,caption,th,cite,dfn,em,var{font-style:normal;}
+ol, ul { list-style: none; }
+h1, h2, h3, h4, h5, h6 {font-size: 100%; }
+q:before, q:after { content:""; }
+legend{ display:none;}
+
+
+/* bass css */
+body{ margin:0 auto; font:12px/1.5 'Î¢ÈíÑÅºÚ'; color:#81857d; background-color:#FFFFFF; }
+.wrapper{ margin:0 auto; width:1002px; }
+.clearfix:after{ content:""; height:0; visibility:hidden; display:block; clear:both;}
+.clearfix{ zoom:1;}
+.clear { clear:both }
+
+/*********public style*********/
+
+/* link css */
+a {color: #39442e; text-decoration:none; outline:none;}
+a:hover {text-decoration:none;}
+.left{ float:left;}
+.right{ float:right;}
+
+.h21{height:21px;}
+.h22{height:22px;}
+.h30{height:30px;}
+.h35{height:35px;}
+.w190{width:190px;}
+.w210{width:210px;}
+.cfgwrap { position: relative; margin: 20px 40px; }
+.btnwrap { padding-left: 40px; border-bottom: 1px solid #dddddd; }
+.fixwrap { position: fixed; left: 0px; top: 0; padding-top:20px; background:#ffffff; width: 100%; }
+.cfgconwrap { padding-top: 60px; }
+.cfgsubcon { background: #f8f8f8; padding: 20px 20px 5px 20px; margin: 0 0 10px 0; }
+.blue_btn,.white,.red { margin: 0 10px 10px 0; cursor: pointer; }
+.btn_del { color:red; }
+.cfginp01 { float: left; width: 200px; height: 20px; padding: 0 5px; margin-right: 15px; line-height: 20px; font-size: 14px; color: #666666; border: 1px solid #dddddd; background: #ffffff;  }
+.cfginp02 { float: left; width: 180px; height: 20px; padding: 0 5px; margin-right: 15px; line-height: 20px; font-size: 14px; color: #666666; border: 1px solid #dddddd; background: #ffffff;  }
+.cfgsub li { margin-bottom: 10px; }
+.cfgselect { float: left; height: 20px; margin-right: 10px; line-height: 20px; }
+.checkwrap { margin: 0 10px; font-size: 14px; color: #666666; }
+.checkwrap input { margin-right: 5px;}
+.cfgcon { margin: 10px 0 30px; }
+.cfgadd { margin: 10px 0 30px; }
+.mr20 { margin-right: 40px; }
+
+

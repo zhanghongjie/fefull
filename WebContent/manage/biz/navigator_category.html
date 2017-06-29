@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--# include("/manage/comm.html"){}-->
+</head>
+<body>
+	<div class="container mt10">
+		<div class="row dashed p5">
+			<div style="background:no-repeat url('${ctx}/images/gear.png');padding-left: 20px">
+				${lanCfg("当前位置")}：${lanCfg(_menuName)}
+			</div>
+		</div>
+		<div class="row dashed p3 mt5">
+			<table id="qryTable" style="width: 100%">
+				<tr>
+					<td colspan="4" class="tc">
+						<button id="qryBtn" type="button" class="blue_btn w100 ml20">${lanCfg("查询")}</button>
+						<button id="addBtn" type="button" class="blue_btn w100 ml20">${lanCfg("新增")}</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="row mt10">
+			<div id="datadiv" class="col-xs-12" style="display: none">
+				<table id="list"></table>
+				<div id="pager"></div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+$(function(){
+	var gridWidth = $(window).width()-$(window).width()*0.03;
+	var colNamesArr = new Array();
+	colNamesArr.push('${lanCfg("编号")}');
+	colNamesArr.push('${lanCfg("FK会员表，字段为空表示系统数据")}');
+	colNamesArr.push('${lanCfg("分类名称")}');
+	colNamesArr.push('${lanCfg("是否属于系统分类（1是0否）")}');
+	colNamesArr.push('${lanCfg("")}');
+ 	colNamesArr.push('${lanCfg("操作")}');
+	var colModelArr = new Array();
+	colModelArr.push({name:"PK_NAVIGATOR_CATEGORY",width:2,editable:true,align:"center",hidden:true});
+	colModelArr.push({name:"FK_MEMBER",width:5,align:"center",editable:true,edittype:'text'});
+	colModelArr.push({name:"CATEGORY_NAME",width:5,align:"center",editable:true,edittype:'text'});
+	colModelArr.push({name:"IS_SYSTEM",width:5,align:"center",editable:true,edittype:'text'});
+	colModelArr.push({name:"MEMO",width:5,align:"center",editable:true,edittype:'text'});
+ 	colModelArr.push({name:'operateFun',index:'operateFun', width:5,align:"center",editable:false,edittype:'text',formatter:editInit});
+	$("#list").jqGrid({
+	    datatype:"json",
+	    mtype: "post",
+	    url:'${ctx}/navigatorCategory/list?vcode=${reUserObj.vcode}',
+	    colNames:colNamesArr,
+	    colModel:colModelArr,
+	    rownumbers:true,
+	    rowNum:10,
+        //autowidth: true,
+        //shrinkToFit: true,
+	    rowList:[10],
+		altRows:true,//隔行变色
+		altclass:'altclass',//隔行变色样式
+	    gridview:true, //加速显示
+	    viewrecords: true,  //viewrecords:确定是否显示总的记录条数,默认为false
+	   // multiselect: false,  //可多选，出现多选框
+	   // multiselectWidth: 25, //设置多选列宽度
+	    pager: '#pager',//定义数据浏览导航分页条。这必须是一个有效的html元素；在例子中，我们定义的是id为pager的div元素。导航层可以放在任何地方。
+	    caption: '${lanCfg("导航分类表列表")}',
+	    prmNames : {
+	        page:"nowPage",    // 表示请求页码的参数名称
+	        rows:"pageSize",    // 表示请求行数的参数名称
+	        sort: "PK_NAVIGATOR_CATEGORY", // 表示用于排序的列名的参数名称
+	        order: "desc", // 表示采用的排序方式的参数名称
+	        search:"_search", // 表示是否是搜索请求的参数名称
+	        nd:"nd", // 表示已经发送请求的次数的参数名称
+	        //id:"id", // 表示当在编辑数据模块中发送数据时，使用的id的名称
+	        oper:"oper",    // operation参数名称（我暂时还没用到）
+	        editoper:"edit", // 当在edit模式中提交数据时，操作的名称
+	        addoper:"add", // 当在add模式中提交数据时，操作的名称
+	        deloper:"del", // 当在delete模式中提交数据时，操作的名称
+	        subgridid:"PK_NAVIGATOR_CATEGORY", // 当点击以载入数据到子表时，传递的数据名称
+	        npage: null,
+	        totalrows:"totalrows"
+	    }  ,
+	    jsonReader: {
+	    	 repeatitems:false,
+	 	     rows: "pageSize",               // 每页数据行（默认为：rows）
+	 	     total: "totalPage",        // 总页数
+	 	     page: "nowPage",            // 当前页
+	 	     records: "records",    // integer 只读属性，定义了返回的记录数
+	 	     root: "reList"
+		    },
+		    width:gridWidth,
+		    height:250
+	  }).navGrid("#pager",{edit:false,add:false,del:false,search:false});
+	  $("#datadiv").show();
+
+	  $("#qryBtn").click(function(){
+		  var postDataObj = new Object();
+ 			
+			
+	      $("#list").setGridParam({
+			 url:'${ctx}/navigatorCategory/list?vcode=${reUserObj.vcode}',
+			 postData:postDataObj,
+			 page:1
+	      }).trigger("reloadGrid"); //重新载入
+	      $("#datadiv").show();
+	 });
+	  $("#addBtn").click(function(){
+		  add();
+	 });
+	  $(".divwintitle").each(function(){
+		  alert($(this).html());
+	  });
+});
+
+//编辑按钮初始化
+function editInit(cellvalue, options, rawObject) {
+	var detail = "";
+	detail+="<a class='pointer' style='color:blue' onclick=edit('"+ rawObject.PK_NAVIGATOR_CATEGORY + "','"+options.rowId+"')>${lanCfg("编辑")}</a>";
+	detail+="&nbsp;&nbsp;<a style='color:blue' class='pointer' onclick=del('" + rawObject.PK_NAVIGATOR_CATEGORY + "','"+options.rowId+"')>${lanCfg("删除")}</a>";
+	return detail;
+};
+
+function add(){
+	$("#list").jqGrid('editGridRow','new',{url:'${ctx}/navigatorCategory/add?vcode=${reUserObj.vcode}',left:350,top:100,
+		closeAfterEdit:true,reloadAfterSubmit:true,
+		beforeSubmit : function(postdata, formid) { //前台数据校验
+								if(!true && !postdata.FK_MEMBER){
+					return[false,'${lanCfg("FK会员表，字段为空表示系统数据不可为空")}！'];
+				}
+								if(!false && !postdata.CATEGORY_NAME){
+					return[false,'${lanCfg("分类名称不可为空")}！'];
+				}
+								if(!false && !postdata.IS_SYSTEM){
+					return[false,'${lanCfg("是否属于系统分类（1是0否）不可为空")}！'];
+				}
+								if(!true && !postdata.MEMO){
+					return[false,'${lanCfg("不可为空")}！'];
+				}
+				return[true,""];
+		} 	,
+		afterSubmit : function(response, postdata) {//后台响应
+			var flag = response.responseText.flag;
+			var obj = jQuery.parseJSON(response.responseText);
+			if(obj.flag==2){
+				return[false,obj.msg];
+			}else{
+				return[true,""];
+			}
+		}
+	});
+}
+
+function del(mid,rowId){
+	if(confirm('${lanCfg("您确认要删除本记录吗")}?')){
+		var obj = {PK_NAVIGATOR_CATEGORY:mid};
+		$.post('${ctx}/navigatorCategory/del?vcode=${reUserObj.vcode}',obj,function(result){
+			if(result.flag==1){
+				$("#list").jqGrid('delRowData',rowId);
+			}else{
+				alert('${lanCfg("删除失败")}！');
+			}
+		});
+	}
+}
+//id数据库主键，rowId逻辑行id
+function edit(id,rowId){
+	$("#list").jqGrid('editGridRow',rowId,{url:'${ctx}/navigatorCategory/edit?vcode=${reUserObj.vcode}',left:350,top:100,
+		closeAfterEdit:true,reloadAfterSubmit:true,
+		beforeSubmit : function(postdata, formid) { //前台数据校验
+								if(!true && !postdata.FK_MEMBER){
+					return[false,'${lanCfg("FK会员表，字段为空表示系统数据不可为空")}！'];
+				}
+								if(!false && !postdata.CATEGORY_NAME){
+					return[false,'${lanCfg("分类名称不可为空")}！'];
+				}
+								if(!false && !postdata.IS_SYSTEM){
+					return[false,'${lanCfg("是否属于系统分类（1是0否）不可为空")}！'];
+				}
+								if(!true && !postdata.MEMO){
+					return[false,'${lanCfg("不可为空")}！'];
+				}
+				return[true,""];
+		} 	,
+		afterSubmit : function(response, postdata) {//后台响应
+			var flag = response.responseText.flag;
+			var obj = jQuery.parseJSON(response.responseText);
+			if(obj.flag==2){
+				return [false,obj.msg];
+			}else{
+				return[true,""];
+			}
+		}
+	});
+}
+function alertAllPrpos(obj) {
+    // 用来保存所有的属性名称和值
+    var props = "";
+    // 开始遍历
+    for(var p in obj){
+        // 方法
+        if(typeof(obj[p])=="function"){
+            //obj[p]();
+        }else{
+            // p 为属性名称，obj[p]为对应属性的值
+            props += p + "=" + obj[p] + "; ";
+        }
+    }
+    // 最后显示所有的属性
+    alert(props);
+ }
+
+</script>
+</body>
+</html>

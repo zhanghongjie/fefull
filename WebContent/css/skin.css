@@ -1,0 +1,308 @@
+@charset "utf-8";
+/* CSS Document */
+.body {
+    background-color: #EEF2FB;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+.login_top_bg {
+	background-image: url(../images/login-top-bg.gif);
+	background-repeat: repeat-x;
+}
+.login-top-txt {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight:800;
+    color: #2278cb;
+    text-decoration: none;
+    line-height: 20px;
+}
+.login_bg {
+    background-image: url(../images/login-bg.gif);
+    background-repeat: no-repeat;
+}
+.login_bg2 {
+    background-image: url(../images/login-content-bg.gif);
+    background-repeat: repeat-x;
+}
+.login_txt_title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 25px;
+    color: #5f5f5f;
+    font-weight: bold;
+}
+.login_txt_bg {
+    background-color:#FFFFFF;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+.login_txt {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    line-height: 25px;
+    color: #5f5f5f;
+}
+.login_input {
+    background: url(../images/login-txt-bg.gif);
+    background-repeat: no-repeat;
+    border:none;
+    width:195px;  
+    height:32px;  
+    line-height:26px;  
+    padding-left:5px;  
+}
+.login_txt_bg2 {
+    background-image: url(../images/login-txt-bg.gif);
+    background-repeat: no-repeat;
+}
+.login_input_pwd {
+    border:none;
+    width:165px;  
+    height:28px;  
+    line-height:26px;  
+    padding-left:5px;
+    padding-right:25px;
+}
+.login_code_input {
+    background: url(../images/login-codetxt-bg.gif);
+    background-repeat: no-repeat;
+    border:none;
+    width:93px;  
+    height:31px;  
+    line-height:26px;  
+    padding-left:5px;  
+}
+.login_code {
+    background-image: url(../images/login-code-bg.gif);
+    background-repeat: no-repeat;
+}
+.login_button {
+    background-image: url(../images/login-buttom-bg.gif);
+    background-repeat: no-repeat;
+    border:none;
+    width:194px;  
+    height:33px; 
+    color: #FFFFFF;
+    font-size:12pt;
+}
+.login_buttom_bg {
+    background-image: url(../images/login-button-bg.gif);
+    background-repeat: no-repeat;
+}
+.login_buttom_txt {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight:800;
+	color: #444444;
+	text-decoration: none;
+	line-height: 20px;
+}
+
+.Submit {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #629DAE;
+	text-decoration: none;
+	background-image: url(Submit_bg.gif);
+	background-repeat: repeat-x;
+}
+.admin_txt {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #ffcc00;
+	text-decoration: none;
+	height: 38px;
+	width: 100%;
+	position: 固定;
+	line-height: 38px;
+}
+
+.admin_topbg {
+	background-image: url(top-right.gif);
+	background-repeat: repeat-x;
+}
+.txt_bt {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 25px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+}
+.left_topbg {
+	background-image: url(content-bg.gif);
+	background-repeat: repeat-x;
+}
+.admin_toptxt {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #4A8091;
+	height: 18px;
+	width: 100%;
+	overflow: hidden;
+	position: 固定;
+}
+
+.left_bt {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #395a7b;
+}
+.left_bt2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 25px;
+	font-weight: bold;
+	color: #333333;
+}
+.titlebt {
+	font-size: 12px;
+	line-height: 26px;
+	font-weight: bold;
+	color: #000000;
+	background-image:url(top_bt.jpg);
+	background-repeat: no-repeat;
+	display: block;
+	text-indent: 38px;
+	padding-top: 5px;
+}
+
+.left_txt {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 25px;
+	color: #666666;
+}
+.left_txt2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 25px;
+	color: #000000;
+}
+.nowtable {
+	background-color: #e1e5ee;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-top-color: #bfc4ca;
+	border-right-color: #bfc4ca;
+	border-bottom-color: #bfc4ca;
+	border-left-color: #bfc4ca;
+}
+.left_txt3 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 25px;
+	color: #003366;
+	text-decoration: none;
+}
+
+
+
+.left_ts {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 25px;
+	font-weight: bold;
+	color: #FF6600;
+}
+.line_table {
+	border: 1px solid #CCCCCC;
+}
+.sec1 {
+	CURSOR: hand;
+	COLOR: #000000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 25px;
+	border: 1px solid #B5D0D9;
+	background-image: url(right_smbg.jpg);
+	background-repeat: repeat-x;
+}
+.sec2 {
+	FONT-WEIGHT: bold;
+	CURSOR: hand;
+	COLOR: #000000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 25px;
+	background-color: #e2e7ed;
+	border: 1px solid #e2e7ed;
+}
+.main_tab {
+	COLOR: #000000;
+	BACKGROUND-COLOR: #e2e7ed;
+	border: 1px solid #e2e7ed;
+}
+.MM a {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 26px;
+	color: #666666;
+	background-image: url(menu_bg.gif);
+	background-repeat: no-repeat;
+	list-style-type: none;
+	list-style-image: none;
+}
+
+
+
+.MM a:link {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 26px;
+	color: #666666;
+	background-image: url(menu_bg.gif);
+	background-repeat: no-repeat;
+	list-style-type: none;
+	list-style-image: none;
+}
+input{ vertical-align:middle;}
+select {
+font-size:12px;
+font-family:"宋体";
+}
+form{
+display:inline;}
+
+.text1{
+border:1px solid #ccc; 
+border-left:1px solid #000; 
+border-top:1px solid #000;
+color:blue;
+font-weight:bold;
+font-size:12px; 
+height:24px; 
+padding:4px 0px 4px 5px;}
+.input_btn
+{
+	font-family: "宋体";
+	font-size: 12px;
+	font-weight: bold;
+	color: #333;
+	width: 60px;
+	height: 28px;
+	border: 1px #ccc dotted;
+	background-color: #fff;
+	cursor: pointer;
+}
+.input_btn2
+{
+	font-family: "宋体";
+	font-size: 12px;
+	font-weight: bold;
+	color: #333;
+	width: 60px;
+	height: 28px;
+	border: 1px;
+	background-color: #eee;
+	cursor: pointer;
+}

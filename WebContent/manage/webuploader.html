@@ -1,0 +1,140 @@
+<!--
+简单封装webupload上传组件
+依赖:jquery
+使用:
+1. 在页面引入以下内容(请替换*为-)
+    <!**# include("/manage/webuploader.html"){}**>
+2. 需要插入图片的div,调用以下方法
+$('#raceLogoUpList').webupload({
+    pick:"logoSec",
+    uploadSuccess: function(json){
+        if(!json==false && !json.reList==false && json.reList.length==2){
+            alert(json.reList[0])
+            $("#LOGO").val(json.reList[0]);
+            $("#LOGO_MINI").val(json.reList[1]);
+            $("#LOGO").attr("src","${ctx}"+json.reList[1]);
+        }
+    };
+
+});
+ -->
+<link rel="stylesheet" type="text/css" href="${ctx}/css/webuploader.css"/>
+<script type="text/javascript" src="${ctx}/js/webuploader.min.js"></script>
+
+<script>
+
+    jQuery.fn.extend({
+
+        webupload: function(config){
+
+            var $list = $(this);
+            var pick = "#"+ config.pick;
+            // 优化retina, 在retina下这个值是2
+            var ratio = window.devicePixelRatio || 1;
+            // 缩略图大小
+            var thumbnailWidth = 100 * ratio;
+            var thumbnailHeight = 100 * ratio;
+            // Web Uploader实例
+            var uploader;
+
+            // 初始化Web Uploader
+            uploader = WebUploader.create({
+                // 自动上传。
+                auto: true,
+                // swf文件路径
+                swf: '${ctx}/swf/Uploader.swf',
+                // 文件接收服务端。
+                server: '${ctx}/fileUp/doUpImg?vcode=${reUserObj.vcode}',
+                // 选择文件的按钮。可选。
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                pick: pick,
+                //一次只能上传一张
+                fileNumLimit: 1,
+                // 只允许选择文件，可选。
+                accept: {
+                    title: 'Images',
+                    extensions: 'gif,jpg,jpeg,bmp,png',
+                    mimeTypes: 'image/*'
+                }
+            });
+
+            // 当有文件添加进来的时候
+            uploader.on( 'fileQueued', function( file ) {
+                var $li = $(
+                                '<div id="' + file.id + '" class="file-item thumbnail">' +
+                                '<img>' +
+                                '<div class="info">' + file.name + '</div>' +
+                                '</div>'
+                        );
+                var $img = $li.find('img');
+
+                $list.append( $li );
+
+                // 创建缩略图
+                uploader.makeThumb( file, function( error, src ) {
+                    if ( error ) {
+                        $img.replaceWith('<span>不能预览</span>');
+                        return;
+                    }
+
+                    $img.attr( 'src', src );
+                }, thumbnailWidth, thumbnailHeight );
+            });
+
+            // 文件上传过程中创建进度条实时显示。
+            uploader.on( 'uploadProgress', function( file, percentage ) {
+                var $li = $( '#'+file.id ),
+                        $percent = $li.find('.progress span');
+
+                // 避免重复创建
+                if ( !$percent.length ) {
+                    $percent = $('<p class="progress"><span></span></p>')
+                            .appendTo( $li )
+                            .find('span');
+                }
+
+                $percent.css( 'width', percentage * 100 + '%' );
+            });
+
+            // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+            uploader.on( 'uploadSuccess', function( file ,json) {
+                $( '#'+file.id ).addClass('upload-state-done');
+                //alert(json.reList)
+                config.uploadSuccess(json);
+            });
+
+            // 文件上传失败，现实上传出错。
+            uploader.on( 'uploadError', function( file ) {
+                var $li = $( '#'+file.id ),
+                        $error = $li.find('div.error');
+
+                // 避免重复创建
+                if ( !$error.length ) {
+                    $error = $('<div class="error"></div>').appendTo( $li );
+                }
+
+                $error.text('${lanCfg("上传失败")}');
+            });
+
+            //违背上传规则，导致上传失败
+            uploader.on('error', function(handler) {
+                if(handler=="Q_EXCEED_NUM_LIMIT"){
+                    alert('${lanCfg("超出最大张数")}');
+                }
+                if(handler=="F_DUPLICATE"){
+                    alert('${lanCfg("文件重复")}');
+                }
+            });
+
+            // 完成上传完了，成功或者失败，先删除进度条。
+            uploader.on( 'uploadComplete', function( file ) {
+                $( '#'+file.id ).find('.progress').remove();
+                //uploader.removeFile(file);
+                uploader.reset();
+            });
+
+        }
+
+    });
+
+</script>

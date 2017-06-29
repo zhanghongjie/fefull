@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!--# include("/manage/comm.html"){}-->
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/webuploader.css"/>
+	<script type="text/javascript" src="${ctx}/js/webuploader.min.js"></script>
+	<script type="text/javascript" src="${ctx}/js/linkBoxForJQ.js"></script>
+	<style type="text/css">
+		.pointer{
+			cursor: pointer;
+		}
+		.div{
+			border: 1px solid #000000;
+		}
+		#qryTable{border-collapse:collapse;border:none;}
+		#qryTable td{border:solid #aed0ea 1px;padding: 5px};
+		.td-label {
+			font-size: 12px;
+		}
+	</style>
+</head>
+<body>
+<div id="mask">
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" style="height: 100%;">
+  <tr>
+	    <td class="pl10" valign="top">
+			<form action="" method="post" id="dataForm">
+				<div class="row dashed p3 mt5">
+				<table id="qryTable" cellpadding="0" cellspacing="0" width="100%" border="0">
+					<tbody>
+						<tr>
+							<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("会员登录名")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="LOGIN_NAME" name="bizMember.LOGIN_NAME" style="width: 168px" value="${bizMember.LOGIN_NAME !''}" placeholder='${lanCfg("会员登录名")}'/>
+																		</td>
+													<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("登录密码")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="LOGIN_PWD" name="bizMember.LOGIN_PWD" style="width: 168px" value="${bizMember.LOGIN_PWD !''}" placeholder='${lanCfg("登录密码")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("真实姓名")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="REAL_NAME" name="bizMember.REAL_NAME" style="width: 168px" value="${bizMember.REAL_NAME !''}" placeholder='${lanCfg("真实姓名")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("性别(1，男，2，女)")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="SEX" name="bizMember.SEX" style="width: 168px" value="${bizMember.SEX !''}" placeholder='${lanCfg("性别(1，男，2，女)")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("出生年月")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="BIRTH_DAY" name="bizMember.BIRTH_DAY" style="width: 168px" value="${bizMember.BIRTH_DAY !''}" placeholder='${lanCfg("出生年月")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("会员头像")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="HEAD_PORTRAIT" name="bizMember.HEAD_PORTRAIT" style="width: 168px" value="${bizMember.HEAD_PORTRAIT !''}" placeholder='${lanCfg("会员头像")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("证件类型（身份证、护照、回乡证、台胞证、其他证件）")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="DICT_CER_TYPE" name="bizMember.DICT_CER_TYPE" style="width: 168px" value="${bizMember.DICT_CER_TYPE !''}" placeholder='${lanCfg("证件类型（身份证、护照、回乡证、台胞证、其他证件）")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("证件号码")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="CER_NUMBER" name="bizMember.CER_NUMBER" style="width: 168px" value="${bizMember.CER_NUMBER !''}" placeholder='${lanCfg("证件号码")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("手机号码")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="PHONE_NUMBER" name="bizMember.PHONE_NUMBER" style="width: 168px" value="${bizMember.PHONE_NUMBER !''}" placeholder='${lanCfg("手机号码")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("邮箱")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="E_MAIL" name="bizMember.E_MAIL" style="width: 168px" value="${bizMember.E_MAIL !''}" placeholder='${lanCfg("邮箱")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("会员状态(常量：1正常，2禁用，3删除)")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="DICT_MEMBER_STATUS" name="bizMember.DICT_MEMBER_STATUS" style="width: 168px" value="${bizMember.DICT_MEMBER_STATUS !''}" placeholder='${lanCfg("会员状态(常量：1正常，2禁用，3删除)")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("会员等级")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="DICT_MEMBER_LEVEL" name="bizMember.DICT_MEMBER_LEVEL" style="width: 168px" value="${bizMember.DICT_MEMBER_LEVEL !''}" placeholder='${lanCfg("会员等级")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("邀请人")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="REFEREE_ID" name="bizMember.REFEREE_ID" style="width: 168px" value="${bizMember.REFEREE_ID !''}" placeholder='${lanCfg("邀请人")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("邀请码")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="REFEREE_CODE" name="bizMember.REFEREE_CODE" style="width: 168px" value="${bizMember.REFEREE_CODE !''}" placeholder='${lanCfg("邀请码")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("注册渠道（主办方创建、超管创建、前台注册）")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="REG_CHANNEL" name="bizMember.REG_CHANNEL" style="width: 168px" value="${bizMember.REG_CHANNEL !''}" placeholder='${lanCfg("注册渠道（主办方创建、超管创建、前台注册）")}'/>
+																		</td>
+													<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("注册时间")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="REG_TIME" name="bizMember.REG_TIME" style="width: 168px" value="${bizMember.REG_TIME !''}" placeholder='${lanCfg("注册时间")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("账号是否激活（1是，0否）")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="IS_ACTIVE" name="bizMember.IS_ACTIVE" style="width: 168px" value="${bizMember.IS_ACTIVE !''}" placeholder='${lanCfg("账号是否激活（1是，0否）")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("备注")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="REMARK" name="bizMember.REMARK" style="width: 168px" value="${bizMember.REMARK !''}" placeholder='${lanCfg("备注")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("最后一次登录时间")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="LAST_LOGIN_TIME" name="bizMember.LAST_LOGIN_TIME" style="width: 168px" value="${bizMember.LAST_LOGIN_TIME !''}" placeholder='${lanCfg("最后一次登录时间")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("登录IP")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="LOGIN_IP" name="bizMember.LOGIN_IP" style="width: 168px" value="${bizMember.LOGIN_IP !''}" placeholder='${lanCfg("登录IP")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td colspan="6" class="td-btn tc">
+									<button id="saveBtn" type="button" class="blue_btn w100">${lanCfg("修改")}</button>
+									<button id="resetBtn" type="button" class="blue_btn w100">${lanCfg("重置")}</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<input type="hidden" id="PK_MEMBER" name="bizMember.PK_MEMBER" value=""/>
+		</form>
+		</td>
+	  </tr>
+</table>
+</div>
+<script type="text/javascript">
+$(function(){
+	//validIllegalChar检验非法字符
+	var rulesObj = new Object();
+		    rulesObj["bizMember.LOGIN_NAME"] = {maxlength: 50, required: true};
+	    rulesObj["bizMember.LOGIN_PWD"] = {maxlength: 50, required: true};
+	    rulesObj["bizMember.PHONE_NUMBER"] = {maxlength: 50, required: true};
+	    rulesObj["bizMember.DICT_MEMBER_STATUS"] = {maxlength: 50, required: true};
+	    rulesObj["bizMember.REG_CHANNEL"] = {maxlength: 50, required: true};
+	    rulesObj["bizMember.REG_TIME"] = {maxlength: 50, required: true};
+	
+	$("#dataForm").validate({
+		rules: rulesObj
+	});
+	$("#saveBtn").click(function(){
+		if(!$("#dataForm").valid()) {return false;}
+		$("#mask").mask('${lanCfg("正在保存中")}...');
+		var datas = $("#dataForm").serialize();
+		var url = "${ctx}/member/edit4Form?vcode=${reUserObj.vcode}";
+		$.post(url,datas,function(result){
+			if(!result || result.flag!=1){
+				alert(result.msg);
+			}else{
+				alert('${lanCfg("操作成功")}！');
+			}
+			$("#mask").unmask();
+		});
+	});
+	$("#resetBtn").click(function(){
+		_reset("dataForm");
+	});
+	 
+});
+</script>
+</body>
+</html>

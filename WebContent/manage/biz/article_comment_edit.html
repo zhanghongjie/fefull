@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!--# include("/manage/comm.html"){}-->
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/webuploader.css"/>
+	<script type="text/javascript" src="${ctx}/js/webuploader.min.js"></script>
+	<script type="text/javascript" src="${ctx}/js/linkBoxForJQ.js"></script>
+	<style type="text/css">
+		.pointer{
+			cursor: pointer;
+		}
+		.div{
+			border: 1px solid #000000;
+		}
+		#qryTable{border-collapse:collapse;border:none;}
+		#qryTable td{border:solid #aed0ea 1px;padding: 5px};
+		.td-label {
+			font-size: 12px;
+		}
+	</style>
+</head>
+<body>
+<div id="mask">
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" style="height: 100%;">
+  <tr>
+	    <td class="pl10" valign="top">
+			<form action="" method="post" id="dataForm">
+				<div class="row dashed p3 mt5">
+				<table id="qryTable" cellpadding="0" cellspacing="0" width="100%" border="0">
+					<tbody>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("FK文章表")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="FK_ARTICLE" name="bizArticleComment.FK_ARTICLE" style="width: 168px" value="${bizArticleComment.FK_ARTICLE !''}" placeholder='${lanCfg("FK文章表")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("FK会员表（可为空，匿名评论）")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="FK_MEMBER" name="bizArticleComment.FK_MEMBER" style="width: 168px" value="${bizArticleComment.FK_MEMBER !''}" placeholder='${lanCfg("FK会员表（可为空，匿名评论）")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("姓名")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="REALNAME" name="bizArticleComment.REALNAME" style="width: 168px" value="${bizArticleComment.REALNAME !''}" placeholder='${lanCfg("姓名")}'/>
+																		</td>
+													<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("评论内容")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="CONTENT" name="bizArticleComment.CONTENT" style="width: 168px" value="${bizArticleComment.CONTENT !''}" placeholder='${lanCfg("评论内容")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("邮箱")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="EMAIL" name="bizArticleComment.EMAIL" style="width: 168px" value="${bizArticleComment.EMAIL !''}" placeholder='${lanCfg("邮箱")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("联系方式")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="CONTACT" name="bizArticleComment.CONTACT" style="width: 168px" value="${bizArticleComment.CONTACT !''}" placeholder='${lanCfg("联系方式")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("访问IP")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="VISIT_IP" name="bizArticleComment.VISIT_IP" style="width: 168px" value="${bizArticleComment.VISIT_IP !''}" placeholder='${lanCfg("访问IP")}'/>
+																		</td>
+													<td class="td-label bgWhite"><span class="required">*</span>${lanCfg("0:待回复;1:已回复;2:删除")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="STATUS" name="bizArticleComment.STATUS" style="width: 168px" value="${bizArticleComment.STATUS !''}" placeholder='${lanCfg("0:待回复;1:已回复;2:删除")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("评论时间")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="VISIT_DATE" name="bizArticleComment.VISIT_DATE" style="width: 168px" value="${bizArticleComment.VISIT_DATE !''}" placeholder='${lanCfg("评论时间")}'/>
+																		</td>
+													<td class="td-label bgWhite">${lanCfg("REPLY_CONTENT")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="REPLY_CONTENT" name="bizArticleComment.REPLY_CONTENT" style="width: 168px" value="${bizArticleComment.REPLY_CONTENT !''}" placeholder='${lanCfg("REPLY_CONTENT")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td class="td-label bgWhite">${lanCfg("回复时间")}</td>
+								<td class="td-value" nowrap="nowrap">
+									<input type="text" id="REPLY_DATE" name="bizArticleComment.REPLY_DATE" style="width: 168px" value="${bizArticleComment.REPLY_DATE !''}" placeholder='${lanCfg("回复时间")}'/>
+																		</td>
+						</tr>
+						<tr>
+							<td colspan="6" class="td-btn tc">
+									<button id="saveBtn" type="button" class="blue_btn w100">${lanCfg("修改")}</button>
+									<button id="resetBtn" type="button" class="blue_btn w100">${lanCfg("重置")}</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<input type="hidden" id="PK_ARTICLE_COMMENT" name="bizArticleComment.PK_ARTICLE_COMMENT" value=""/>
+		</form>
+		</td>
+	  </tr>
+</table>
+</div>
+<script type="text/javascript">
+$(function(){
+	//validIllegalChar检验非法字符
+	var rulesObj = new Object();
+		    rulesObj["bizArticleComment.CONTENT"] = {maxlength: 50, required: true};
+	    rulesObj["bizArticleComment.EMAIL"] = {maxlength: 50, required: true};
+	    rulesObj["bizArticleComment.STATUS"] = {maxlength: 50, required: true};
+	
+	$("#dataForm").validate({
+		rules: rulesObj
+	});
+	$("#saveBtn").click(function(){
+		if(!$("#dataForm").valid()) {return false;}
+		$("#mask").mask('${lanCfg("正在保存中")}...');
+		var datas = $("#dataForm").serialize();
+		var url = "${ctx}/articleComment/edit4Form?vcode=${reUserObj.vcode}";
+		$.post(url,datas,function(result){
+			if(!result || result.flag!=1){
+				alert(result.msg);
+			}else{
+				alert('${lanCfg("操作成功")}！');
+			}
+			$("#mask").unmask();
+		});
+	});
+	$("#resetBtn").click(function(){
+		_reset("dataForm");
+	});
+	 
+});
+</script>
+</body>
+</html>

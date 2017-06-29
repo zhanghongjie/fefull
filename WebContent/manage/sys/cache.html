@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--# include("/manage/comm.html"){}-->
+</head>
+<body>
+	<div class="container mt10">
+		<div class="row dashed p5">
+			<div style="background:no-repeat url('${ctx}/images/gear.png');padding-left: 20px">
+				当前位置：${lanCfg(_menuName)}
+			</div>
+		</div>
+		<div class="row dashed p3 mt5">
+			<table id="qryTable" style="width: 100%">
+				<tr>
+					<td>
+						<button id="upBtn" type="button" class="blue_btn w100 ml20">更新缓存</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+<script type="text/javascript">
+$(function(){
+	$("#upBtn").click(function(){
+		var obj = {};
+		console.log("${ctx}/cache/update?vcode=${reUserObj.vcode}");
+		$.post("${ctx}/cache/update?vcode=${reUserObj.vcode}",obj,function(result){
+			if(result.flag==1){
+				alert("更新成功!");
+			}else{
+				alert("更新失败!");
+			}
+		});
+	});
+});
+
+function alertAllPrpos(obj) {
+    // 用来保存所有的属性名称和值
+    var props = "";
+    // 开始遍历
+    for(var p in obj){
+        // 方法
+        if(typeof(obj[p])=="function"){
+            //obj[p]();
+        }else{
+            // p 为属性名称，obj[p]为对应属性的值
+            props += p + "=" + obj[p] + "; ";
+        }
+    }
+    // 最后显示所有的属性
+    alert(props);
+ }
+
+</script>
+</body>
+</html>

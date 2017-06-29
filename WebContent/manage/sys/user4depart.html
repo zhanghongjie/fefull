@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="${session["base"]}/css/jquery-ui-1.10.3.custom.min.css" />
+<link rel="stylesheet" type="text/css" href="${session["base"]}/css/ui.jqgridb.css" />
+<link rel="stylesheet" type="text/css" href="${session["base"]}/css/base.css">
+<script type="text/javascript" src="${session["base"]}/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="${session["base"]}/js/jquery-ui-1.10.3.custom.js"></script>
+<script type="text/javascript" src="${session["base"]}/js/jquery.jqGrid.src.js"></script>
+<script type="text/javascript" src="${session["base"]}/js/grid.locale-cn.js"></script>
+<style type="text/css">
+.txt {
+	height: 40px;
+	line-height: 40px;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.div {
+	border: 1px solid #000000;
+}
+
+.ui-widget {
+	font-size: 15px;
+}
+
+body {
+	font-size: 12px;
+}
+.ui-widget{font-size: 12px;}
+
+#qryTable{border-collapse:collapse;border:none;}
+#qryTable td{border:solid #aed0ea 1px;padding: 5px};
+</style>
+</head>
+<body>
+	<div class="container mt10">
+		<div class="row dashed p5">
+			<div style="background:no-repeat url('${session["base"]}/images/gear.png');padding-left: 20px">
+				当前位置：${menuName!'未知'}
+			</div>
+		</div>
+		<div class="row">
+			<div class="row dashed p3 mt5">
+				<table id="qryTable" width="100%">
+					<tr>
+						<td class="bgWhite">
+							用户名：
+						</td>
+						<td>
+							<input type="text" id="userName" name="userName" placeholder="人员名称" style="width:160px;">
+						</td>
+						<td class="bgWhite">
+							角色名称：
+						</td>
+						<td>
+							<input id="roleId" type="hidden" value="${roleId}"/>
+							<input id="roleName" type="text" value="${roleName}"/>
+						</td>
+						<td class="bgWhite">
+							机构名称：
+						</td>
+						<td>
+							<input id="departId" type="hidden" value="${departId}"/>
+							<input id="departName" type="text" value="${departName}"/>
+						</td>
+					</tr>
+					<tr style="border: 1px solid #000000;">
+						<td colspan="6">
+							<div class="col-xs-12 tc">
+								<#if menuOper??>
+									<#if (menuOper.operSel=="1")>
+										<button id="qryBtn" type="button" class="blue_btn w80">查询</button>
+									</#if>
+								</#if>
+								<#if menuOper??>
+									<#if menuOper.operAdd=="1">
+										<button id="addBtn" type="button" class="blue_btn w80 ml20">新增</button>
+									</#if>
+								</#if>
+
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div id="datadiv" class="col-xs-12" style="display:none">
+			     <table id="list"></table>
+				 <div id="pager"></div>
+			 </div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$(function(){
+	var gridWidth = $(window).width()-$(window).width()*0.03;
+	$("#list").jqGrid({
+	    datatype:"json",
+	    mtype: "post",
+	    url:"${session["base"]}/user/list?departId=${departId}&roleId=${roleId}",
+	    colNames:["编号","用户名","用户密码","性别","联系电话","归属部门","角色","真实姓名","状态","昵称","备注","操作"],
+	    colModel:[
+	      {name:"id",width:2,align:"center",hidden:true},
+	      {name:"user_name",width:5,align:"center",editable:true,edittype:'text'},
+	      {name:"user_pass",width:5,align:"center",editable:true,edittype:'text',hidden:true},
+	      {name:"user_sex",width:5,align:"center",editable:true,edittype:'select',editoptions:{value:{0:'女',1:'男'}},hidden:true},
+	      {name:"user_phone",width:5,align:"center",editable:true,edittype:'text',editrules:{number:true}},
+	      {name:"depart_name",width:5,align:"center",editable:false,edittype:'text'},
+	      {name:"role_name",width:5,align:"center",editable:false,edittype:'text'},
+	      {name:"real_name",width:5,align:"center",editable:true,edittype:'text'},
+	      {name:"ustats_name",width:5,align:"center",editable:true,edittype:'select',editoptions:{value:{1:'生效',0:'失效'}},hidden:true},
+	      {name:"nick_name",width:5,align:"center",editable:true,edittype:'text',hidden:true},
+	      {name:"remarks",width:5,align:"center",editable:true,edittype:'text',editrules:{edithidden:true},hidden:true},
+	      {name:'operateFun',index:'operateFun', width:5,align:"center",editable:false,edittype:'text',formatter:editInit}
+	      ],
+	    rownumbers:true,
+	    rowNum:10,
+	    rowList:[10],
+		altRows:true,//隔行变色
+		altclass:'altclass',//隔行变色样式
+	    gridview:true, //加速显示
+	    viewrecords: true,  //viewrecords:确定是否显示总的记录条数,默认为false
+	   // multiselect: false,  //可多选，出现多选框
+	   // multiselectWidth: 25, //设置多选列宽度
+	    pager: '#pager',//定义数据浏览导航分页条。这必须是一个有效的html元素；在例子中，我们定义的是id为pager的div元素。导航层可以放在任何地方。
+	    caption: "用户列表",
+	    prmNames : {
+	        page:"nowPage",    // 表示请求页码的参数名称
+	        rows:"pageSize",    // 表示请求行数的参数名称
+	        sort: "id", // 表示用于排序的列名的参数名称
+	        order: "desc", // 表示采用的排序方式的参数名称
+	        search:"_search", // 表示是否是搜索请求的参数名称
+	        nd:"nd", // 表示已经发送请求的次数的参数名称
+	        id:"id", // 表示当在编辑数据模块中发送数据时，使用的id的名称
+	        oper:"oper",    // operation参数名称（我暂时还没用到）
+	        editoper:"edit", // 当在edit模式中提交数据时，操作的名称
+	        addoper:"add", // 当在add模式中提交数据时，操作的名称
+	        deloper:"del", // 当在delete模式中提交数据时，操作的名称
+	        subgridid:"id", // 当点击以载入数据到子表时，传递的数据名称
+	        npage: null,
+	        totalrows:"totalrows" // 表示需从Server得到总共多少行数据的参数名称，参见jqGrid选项中的rowTotal
+	    }  ,
+	    jsonReader: {
+	    	 repeatitems:false,
+	 	     rows: "pageSize",               // 每页数据行（默认为：rows）
+	 	     total: "totalPage",        // 总页数
+	 	     page: "nowPage",            // 当前页
+	 	     records: "records",    // integer 只读属性，定义了返回的记录数
+	 	     root: "reList"
+		    },
+		    width:gridWidth,
+		    height:350
+	  }).navGrid("#pager",{edit:false,add:false,del:false,search:false});
+	  $("#datadiv").show();
+
+	  $("#qryBtn").click(function(){
+	      $("#list").setGridParam({
+			 url:"${session["base"]}/user/list",
+			 postData:{"userName":$("#userName").val(),"departId":$("#departId").val(),"roleId":$("#roleId").val()},
+			 page:1
+	      }).trigger("reloadGrid"); //重新载入
+	      $("#datadiv").show();
+	 });
+	  $("#addBtn").click(function(){
+		  add();
+	 });
+
+
+		$(window).resize(function(){
+		    $("#list").setGridWidth($(window).width());
+		});
+});
+ //编辑按钮初始化
+ function editInit(cellvalue, options, rawObject) {
+  var detail = "";
+	<#if menuOper??>
+		<#if (menuOper.operUp=="1")>
+			detail+="<a class='pointer' style='color:blue' onclick=edit('"+ rawObject.id + "')>编辑</a>";
+		</#if>
+	</#if>
+	<#if menuOper??>
+		<#if menuOper.operDel=="1">
+			detail+="&nbsp;&nbsp;<a style='color:blue' class='pointer' onclick=del('" + rawObject.id + "')>删除</a>";
+		</#if>
+	</#if>
+  return detail;
+ };
+
+function add(){
+	//jQuery("#grid_id").setGridParam().showCol("colname").trigger("reloadGrid");
+	$("#list").jqGrid('editGridRow','new',{url:"${session["base"]}/user/add4Depart",left:350,top:100,
+		closeAfterEdit:true,reloadAfterSubmit:true
+		,beforeSubmit : function(postdata, formid) { //前台数据校验
+			if(!postdata.user_name){
+				return[false,"用户名不可为空！"];
+			}else{
+				return[true,""];
+			}
+		} 	,
+		afterSubmit : function(response, postdata) {//后台响应
+			var flag = response.responseText.flag;
+			var obj = jQuery.parseJSON(response.responseText);
+			if(obj.flag==2){
+				return[false,obj.msg];
+			}else{
+				return[true,""];
+			}
+		}
+		,afterShowForm: function(oForm){
+			$('#tr_user_pass').show();
+        }
+	});
+}
+function del(mid){
+	if(confirm("您确认要删除本行内容吗?")){
+		var obj = {id:mid};
+		$.post("${session["base"]}/user/del",obj,function(result){
+			if(result.flag==1){
+				$("#list").jqGrid('delRowData',mid);
+			}else{
+				alert("删除失败!");
+			}
+		});
+	}
+}
+function edit(id){
+	var  rowid = $("#list").getGridParam("selrow");
+	$("#list").jqGrid('editGridRow',id,{url:"${session["base"]}/user/edit",left:350,top:100,
+		closeAfterEdit:true,reloadAfterSubmit:true
+		,beforeSubmit : function(postdata, formid) { //前台数据校验
+			if(!postdata.user_name){
+				return[false,"用户名不可为空！"];
+			}else{
+				return[true,""];
+			}
+		} 	,
+		afterSubmit : function(response, postdata) {//后台响应
+			var flag = response.responseText.flag;
+			var obj = jQuery.parseJSON(response.responseText);
+			if(obj.flag==2){
+				return[false,obj.msg];
+			}else{
+				return[true,""];
+			}
+		}
+		,afterShowForm:function(oForm) {
+			$('#tr_user_pass').hide();
+        }
+	});
+}
+function alertAllPrpos(obj) {
+    // 用来保存所有的属性名称和值
+    var props = "";
+    // 开始遍历
+    for(var p in obj){
+        // 方法
+        if(typeof(obj[p])=="function"){
+            //obj[p]();
+        }else{
+            // p 为属性名称，obj[p]为对应属性的值
+            props += p + "=" + obj[p] + "; ";
+        }
+    }
+    // 最后显示所有的属性
+    alert(props);
+ }
+
+ //校验
+function userNameCk(value, colname) {
+	if (!value) {
+	   return [false,"请输入一个用户名！"];
+	}
+	var obj = {};
+	obj.userName = value;
+	$.post('${session["base"]}/user/find',obj,function(flag){
+		if(!flag || flag==0){
+			return [false,"用户名已经存在！"];
+		}else{
+			return [true,""];
+		}
+	});
+}
+</script>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="${session["base"]}/css/jquery-ui-1.10.3.custom.min.css" />
+<link rel="stylesheet" type="text/css" href="${session["base"]}/css/ui.jqgridb.css" />
+<link rel="stylesheet" type="text/css" href="${session["base"]}/css/base.css">
+<script type="text/javascript" src="${session["base"]}/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="${session["base"]}/js/jquery-ui-1.10.3.custom.js"></script>
+<script type="text/javascript" src="${session["base"]}/js/jquery.jqGrid.src.js"></script>
+<script type="text/javascript" src="${session["base"]}/js/grid.locale-cn.js"></script>
+<style type="text/css">
+.txt {
+	height: 40px;
+	line-height: 40px;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.div {
+	border: 1px solid #000000;
+}
+
+.ui-widget {
+	font-size: 15px;
+}
+
+body {
+	font-size: 12px;
+}
+.ui-widget{font-size: 12px;}
+
+#qryTable{border-collapse:collapse;border:none;}
+#qryTable td{border:solid #aed0ea 1px;padding: 5px};
+</style>
+</head>
+<body>
+	<div class="container mt10">
+		<div class="row dashed p5">
+			<div style="background:no-repeat url('${session["base"]}/images/gear.png');padding-left: 20px">
+				当前位置：${menuName!'未知'}
+			</div>
+		</div>
+		<div class="row dashed p3 mt5">
+			<table id="qryTable" style="width: 100%">
+				<tr>
+					<td class="w100 p5">
+						请用移动设备扫描如下的二维码
+						<br/>
+						<br/>
+						<img src="${session["base"]}/images/app_ewm.png" alt="app二维码下载路径" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

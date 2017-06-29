@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	无标题页
+</title>
+    <script  language="javascript" src="${ctx}/js/Public.js"></script>
+    <style type="text/css">
+
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px; 
+	margin-bottom: 0px;
+	min-width:1024px;
+	background-color: #107dd7;
+}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, abbr, acronym, address, cite, code, del, dfn, em, img, ins, strong, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+}
+input, button {
+	margin: 0;
+	padding: 0;
+}
+.c {
+	clear: both;
+	overflow: hidden;
+	height: 0px;
+}
+a, a:link a:visited a:hover {
+	color: #FFF;
+	text-decoration: none;
+}
+a:hover {
+	color: #f90;
+	text-decoration: underline;
+}
+.f_l {
+	float: left;
+}
+.f_r {
+	float: right;
+}
+ body, td, th, div, li, h1, h2, h3, h4, h5, h6, p, ul, ol, dl, em {
+ font-style:normal;
+ font-family:"宋体";
+ font-family:"微软雅黑";
+}
+.btncc {
+height:24px;line-height:24px; background-color:#00ccff; border:1px solid #fff;color:#fff; font-size:12px; padding:0px 10px 0px 10px;
+float:left;
+margin-left:10px;
+display:inline;
+font-weight:bold;
+}
+.btncc:hover{
+	background-color:#02479d;
+	cursor:pointer;
+	color:#fff;
+	border:1px solid #fff;
+	}
+	
+.btnon
+{
+   height:24px;line-height:24px; 
+  background-color:#02479d;
+	cursor:pointer;
+	color:#fff;
+	border:1px solid #fff;
+   font-size:12px; padding:0px 10px 0px 10px;
+float:left;
+margin-left:10px;
+display:inline;
+font-weight:bold;
+}
+#ShowTime {
+	color:#FFFFFF;
+	font-size:13px;
+	padding-right:50px;
+}
+</style>
+<script language="javascript" type="text/javascript">
+    function switchSystem(url, a) {
+        switchdiv(a.parentNode);
+       // var menuif = parent.frames[1].document.getElementById("menuif");
+        var menuif = parent.frames[1];
+        menuif.location.href=url;
+
+    }
+    //添加cookie
+    var setCookie = function(c_name, value, expiredays) {
+        var exdate = new Date()
+        exdate.setDate(exdate.getDate() + expiredays)
+        cookieVal = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
+        //    alert(cookieVal);
+        document.cookie = cookieVal;
+    }
+    function init(){
+		var versionObj = document.getElementById("versionHi");
+		console.log(versionObj);
+		console.log(versionObj.options);
+		var version = versionObj.options[0].text
+		document.getElementById("version").innerText = version;
+    }
+</script>
+</head>
+<body bgcolor="whitesmoke" onload="init();" >
+        <div style="height:79px; background:url(${ctx}/images/title.jpg) left top no-repeat; border-bottom:1px solid #b3c8d4; overflow:hidden;">
+          <div style="text-align:right; padding-right:10px; margin-top:8px;">
+            <span id="ShowTime" ></span>
+            <span style="height:28px;line-height:28px; background-color:#00ccff; border:1px solid #91e9f9; color:#fff; font-size:12px; padding:2px 10px 2px 10px;">
+                 当前用户：<span style="color:Blue; "><span id="lblName">${reUserObj.sysUser.USER_NAME}</span></span>
+                 &nbsp;&nbsp;角色：<span style="color:Blue; "><span id="lblUnit">${reUserObj.sysRole.ROLE_NAME}</span></span>
+              </span>
+              <span style="margin-left:5px; height:28px;line-height:28px; background-color:#00ccff; border:1px solid #91e9f9; border-width:1px 1px 1px 0px; color:#fff; font-size:12px; padding:2px 10px 2px 10px;">
+                <a href="javascript:void(0);" onclick="if(confirm('${lanCfg("即将安全退出系统，是否继续")}？'))window.parent.location = '${ctx}/login/logout' " >退出系统</a>
+              </span>
+          </div>
+          <div style="text-align:right; padding-right:10px; margin-top:8px;">
+          	<span id="version" style="color: #FFFFFF;font-weight: bold;"></span>
+          	<#dimTable dictCode="version" id="versionHi" name="versionHi" style="display:none;" ></#dimTable>
+          </div>
+          
+        </div>
+</body>
+</html>

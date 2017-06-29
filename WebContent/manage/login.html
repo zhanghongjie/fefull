@@ -1,0 +1,180 @@
+
+<title>后台管理登录</title>
+<head>
+    <meta charset="utf-8">
+	<style type="text/css">
+	<!--
+	body {
+		margin-left: 0px;
+		margin-top: 0px;
+		margin-right: 0px;
+		margin-bottom: 0px;
+		background-color: #aad5d5;
+	}
+	-->
+	</style>
+	<link href="${ctx}/css/skin.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="${ctx}/js/jquery-1.9.0.min.js"></script>
+</head>
+<body>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+	<td align="center"><table width="1440" border="0" cellpadding="0" cellspacing="0">
+	  <tr>
+	    <td height="96" valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color: #aad5d5;">
+	      <tr>
+	        <td width="1%" height="21">&nbsp;</td>
+	        <td width="50%" align="center"><img alt="logo" src="${ctx}/images/bg_logo.png" /></td>
+	        <td class="login-top-txt" align="center">CONTACT US : ${customerPhone!''}</td>
+            <td width="1%" height="21">&nbsp;</td>
+	      </tr>
+	    </table></td>
+	  </tr>
+	  <tr>
+	    <td height="447" valign="top"><table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" class="login_bg">
+	      <tr>
+	        <td width="54%" align="right">&nbsp;</td>
+	        <td width="1%" >&nbsp;</td>
+            <td width="45%" valign="middle"><table width="300" height="282" border="0" align="center"  valign="middle" cellpadding="0" cellspacing="0" class="login_bg2">
+                <tr height="10">
+                  <td width="6%">&nbsp;</td>
+                  <td width="94%">&nbsp;</td>
+                </tr>
+	            <tr>
+	              <td width="6%">&nbsp;</td>
+	              <td width="94%" height="38"><span class="login_txt_title">果冻体育</span></td>
+	            </tr>
+	            <tr>
+	              <td>&nbsp;</td>
+	              <td ><form name="myform" action="index.html" method="post"><table cellSpacing="0" cellPadding="0" width="100%" border="0" id="table211" >
+	                  <tr height="50">
+	                     <td width="20%" height="33" class="login_txt_bg"><span class="login_txt">${lanCfg("用户名")} : &nbsp;</span></td>
+	                     <td width="195" height="33" colspan="1" class="" align="left"><input id="username" name="username" class="login_input" value="" size="20" width="195" height="32"></td>
+	                     <td>&nbsp;</td>
+	                  </tr>
+	                  <tr height="50">
+	                     <td height="33" class="login_txt_bg"><span class="login_txt">${lanCfg("密码")} : &nbsp;</span></td>
+	                     <td width="195" height="33" colspan="1" class="" align="left"><table width="195" height="33" border="0" align="center" cellpadding="2" cellspacing="0" class="login_txt_bg2">
+	                       <tr>
+	                           <td align="center"><input class="login_input_pwd" type="password" size="20" id="password" name="password"></td>
+	                           <td align="center"><img alt="logo" src="${ctx}/images/login_luck.gif" /></td>
+	                           <td width="1">&nbsp;</td>
+	                       </tr>
+	                     </table></td>
+	                     <td>&nbsp;</td>
+	                  </tr>
+	                  <tr height="50">
+	                     <td height="33" class="login_txt_bg"><span class="login_txt">${lanCfg("验证码")} : &nbsp;</span></td>
+	                     <td width="195" height="33" colspan="1" class="" align="left"><table width="194" height="33" border="0" align="center" cellpadding="0" cellspacing="0" class="">
+	                        <tr>
+	                            <td><input id="verifycode" name="verifycode" type="text" maxlength="4" size="4" class="login_code_input" onkeyup="value=value.replace(/[^\d]/g,'')"/></td>
+	                            <td><table width="95" height="31" border="0" align="center" cellpadding="0" cellspacing="0" class="login_code"><tr><td><img id="secimg" title="change one..." onclick="javascript:createCode();" style="cursor:pointer;vertical-align: middle;border: 0;margin-left: 10px;"/></td></tr></table></td>
+	                        </tr>
+	                     </table></td>
+	                     <td>&nbsp;</td>
+	                  </tr>
+	                  <tr height="50">
+	                    <td height="33" >&nbsp;</td>
+	                    <td width="195" height="33" colspan="1" class="" align="left"><input id="submitBtn" name="submitBtn" type="button" class="login_button" value="Login"></td>
+	                    <td>&nbsp;</td>
+	                  </tr>
+	              </table></form></td>
+	            </tr>
+                <tr>
+                  <td width="6%">&nbsp;</td>
+                  <td width="94%" height="38">&nbsp;</td>
+                </tr>
+	        </table></td>
+	      </tr>
+	    </table></td>
+	  </tr>
+	  <tr>
+	    <td height="57"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="login_buttom_bg">
+	      <tr>
+	        <td align="center"><span class="login_buttom_txt">Copyright &copy; 2016 www.xxxxx.com</span></td>
+	      </tr>
+	    </table></td>
+	  </tr>
+	</table></td>
+  </tr>
+</table>
+<script type="text/javascript">
+$(function(){
+    if(window != top){
+        top.location.href = location.href;
+    }
+    $("#reSet").click(function(){
+        formReset();
+    });
+    $("#password").css("ime-mode", "disabled");
+
+    createCode();
+    $("#username").keydown(function(event){
+        if(event.keyCode == 13){
+            $("#password")[0].focus();
+        }
+    })
+    $("#password").keydown(function(event){
+        if(event.keyCode == 13){
+            $("#verifycode")[0].focus();
+        }
+    })
+
+    $("#verifycode").keydown(function(event){
+        if(event.keyCode == 13){
+            $("#submitBtn").click();
+        }
+    })
+
+    $("#username")[0].focus();
+});
+
+function createCode(){
+    $("#secimg").attr("src",'${ctx}/vcode?'+new Date().getTime());
+}
+//回车事件
+document.onkeydown=function(event){
+    if(event.keyCode == 13){
+        login();
+    }
+}
+$("#submitBtn").click(function() {
+    login();
+});
+function login(){
+    var qryObj = {};
+    qryObj.userName = $.trim($("#username").val());
+    qryObj.userPass = $.trim($("#password").val());
+    qryObj.verifyCode = $.trim($("#verifycode").val());
+    qryObj.keepPass = $("#keepPass").prop("checked");
+    if (qryObj.userName == '') {
+        $("#username").focus();
+        alert("请输入用户名！");
+        return;
+    }
+    if (qryObj.userPass == '') {
+        $("#password").focus();
+        alert("请输入密码！");
+        return;
+    }
+    if (qryObj.verifyCode == '' || qryObj.verifyCode.length != 4) {
+        $("#verifycode").focus();
+        alert("请输入四位数的验证码！");
+        return;
+    }
+    $.post('${ctx}/login/verify', qryObj, function(result) {
+        console.log(result);
+        if (result != null) {
+            if (result.flag == 1) {
+                window.location.href = '${ctx}/index?vcode='+result.obj;
+            } else{
+                alert(result.msg);
+                createCode();
+            }
+        }
+        return false;
+    });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+﻿
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	信息系统
+</title>
+    <script type="text/javascript" src="${ctx}/js/MdiWin.js"></script>
+    <script type="text/javascript" src="${ctx}/js/Public.js"></script>
+<style type="text/css">
+body
+{
+	font-family:"宋体";
+	font-family: "微软雅黑";
+	font-size: 12px;
+	color:#000000;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+    background-color:#eef2fb;
+    height:100%;
+	min-width:1024px;
+	 overflow:hidden;
+}
+img
+{
+ border:none;
+	}
+table {font-size: 12px; line-height: 19px;}
+td {font-size: 12px; line-height: 19px; padding:0px; margin:0px;}
+.navPoint {
+COLOR: white; CURSOR:pointer; FONT-FAMILY: Webdings; FONT-SIZE: 9pt
+}
+.wintitle{
+	float:left;
+	z-index:0;
+	background: url(${ctx}/images/tab1.gif);
+	background-repeat: no-repeat;
+	width:150px;
+	height:27px;
+	margin-top:4px;
+	cursor:default;
+    border:none;
+	color:#000000;
+}
+.wintitle_active{
+	float:left;
+	z-index:0;
+	background: url(${ctx}/images/tab2.gif);
+	background-repeat: no-repeat;
+	width:150px;
+	height:27px;
+	margin-top:4px;
+	cursor:default;
+    border:none;
+}
+
+.wintitle_active .divwintitle{
+    color:blue;
+}
+
+.win1{
+	width:100%;
+	height:100%;
+	margin-top:0px;
+	margin-bottom:0px;
+}
+.win{
+	width:100%;
+	height:100%;
+	margin-top:0px;
+	margin-bottom:0px;
+}
+.close{
+	border:1pt solid red;
+	width:15px;
+	height:15px;
+	cursor:hand;
+}
+.imgwintitle
+{
+    background: url(${ctx}/images/close_o.png);
+    width:17px;
+    height:17px;
+    margin-top:1px;
+    margin-right:3px;
+    border:none;
+	}
+.imgwintitle_over
+{
+    background: url(${ctx}/images/close_o.png);
+    width:17px;
+    height:17px;
+    margin-top:1px;
+    margin-right:3px;
+    border:none;
+    border-color:Yellow;
+	}
+.divwintitle
+{
+    width:75px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align:center;
+    margin-top:3px;
+    margin-left:5px;
+}
+.STYLE2 {color: #ff0000; font-weight: bold; }
+.STYLE3 {color: #ff0000}
+</style>
+<script>
+    function switchSysBar() {
+        if (document.all("frmTitle").style.display == "") {
+            document.all("img1").src = "${ctx}/images/btn_menu_open.gif";
+            document.all("frmTitle").style.display = "none"
+        }
+        else {
+            document.all("img1").src = "${ctx}/images/btn_menu_close.gif";
+            document.all("frmTitle").style.display = ""
+        }
+    }
+</script>
+</head>
+<body onload="init();"  >
+        <input type="text" id="testin" style=" width:10px; position:absolute; left:-100px;"  />
+        <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0"   >
+          <tr>
+            <td width="155" id=frmTitle noWrap  align="center" valign="top" >
+                <iframe name="menuif" id="menuif" height="100%" width="155" src="${ctx}/index/left?vcode=${reUserObj.vcode!''}"  noresize="noresize" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" target="main" ></iframe>
+             </td>
+            <td width="10" valign="middle" background="${ctx}/images/btn_menu_fgx_y.gif" onclick="switchSysBar()" >
+                <span class="navPoint"><img src="${ctx}/images/btn_menu_close.gif" width="10" height="46" name="img1" id="img1"></span>
+            </td>
+             <td align="left" valign="top" >
+                <table  height="100%" width="100%" id="tbcon" border="0" cellspacing="0" cellpadding="0" style="table-layout:fixed;" onload="resize(this);"  >
+                    <tr height="30px">
+                        <td width="6" valign="bottom" align="right"><img src="${ctx}/images/HRMtopMenuLeftBg.jpg"  height="30px"></td>
+                        <td height="30px" valign="bottom" background="${ctx}/images/HRMtopMenuTopBg.jpg" id="tdtitle" >
+                            <div style="overflow:hidden;width:100%;">
+                              <div id="titlelist" style="margin-left:0;z-index:-1; height:30px;"></div>
+                            </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td id="mywindows" align="center" valign="top" width="100%"   colspan="2"  >
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+          </tr>
+        </table>
+       
+        
+        
+<script language="javascript">
+function resize() {
+    var tb = document.getElementById("tbcon");
+    var td = document.getElementById("mywindows");
+    win.tbHeight = document.body.offsetHeight - 35;
+
+}
+window.onresize = function () {
+    resize();
+    win.activewin(win.currentwin);
+}
+function secBoard(n){
+	var titleObjs = $('#secTable').children()
+	var contentObjs = $('#mainTable').children()
+	for(i=0,t=titleObjs.length;i<t;i++){
+		$(titleObjs[i]).attr("class","sec1");
+	}
+	$(titleObjs[n]).attr("class","sec2");
+	for(i=0,t=contentObjs.length;i<t;i++){
+		$(contentObjs[i]).hide();
+	}
+	$(contentObjs[n]).show();
+}
+</script>
+
+</body>
+
+</html>

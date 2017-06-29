@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>管理系统</title>
+<script type="text/javascript" src="${ctx}/js/jquery-1.9.0.min.js"></script>
+<style type="text/css">
+* {margin:0;padding:0}
+p{margin:0 0 1em 0}
+html,body{margin:0;padding:0; height:100%;overflow:auto; }
+#top
+{
+	position:absolute;
+	left:0px;
+	right:0;
+	top:0;
+	height:80px;
+	overflow:hidden;
+	min-width:1024px;
+}
+#outer
+{
+	overflow:auto;
+	position:absolute;
+	left:0;
+	right:0;
+	top:80px;
+	width:100%;
+	bottom:0;overflow:hidden;
+	min-width:1024px;
+}
+#right
+{
+    position:absolute;
+    right:5px;
+    bottom:5px;
+    overflow:hidden;
+    border:solid lightgray 1px; 
+    background-color:White;
+    width:400px;
+}
+#right div ul li
+{
+    overflow:hidden;
+	}
+.height1{height:0px;overflow:hidden;}
+
+
+/* 右下角弹出的广告位CSS部分 */
+.div_toptitle{ background-color:#4f99ff;height:25px;line-height:25px;text-indent:5px; font-weight:bold;font-size:14px;}
+#msg_win .icos{position:absolute;top:2px;*top:0px;right:0px;z-index:9;line-height:25px;padding-right:10px;}
+#msg_win .bottom_icos{position:absolute;bottom:2px;*bottom:0px;right:0px;z-index:9;line-height:21px; background-color:#4f99ff; padding-right:10px;}
+.icos a{float:left;color:#fff;margin:2px;text-align:center;text-decoration:none;font-family:webdings; font-size:14px;}
+.icos a:hover{color:red;}
+.bottom_icos a{float:left;color:#fff;margin:2px;text-align:center;text-decoration:none;font-family:webdings; font-size:14px;}
+.bottom_icos a:hover{color:red;}
+.msg_title{ background-color:LightBlue;color:white;height:25px;line-height:25px;text-indent:5px; font-weight:bold;font-size:14px; }
+#msg_content{width:400px;overflow:hidden;font-family: 'Arial SimSun';
+font-size: 14px;
+font-style: normal;
+font-variant: normal;
+font-weight: bold;padding-top:1px;margin-right:80px;text-align:left;}
+#msg_content a:hover{color:blue;}
+#ulGG{ padding-bottom:10px;}
+#ulGG li{ margin:10px 10px;color:rgb(200,0,0); font-size:11px; list-style:none;}
+#ulGG li a{color:rgb(200,0,0);font-size:13px; }
+
+
+
+
+</style>
+
+<style type="text/css"> 
+ul,li{ list-style:none;margin:0px; padding:0px;}
+.tab{ width:100%; margin:0px; padding:0px; height:125px; font-size:13px; margin-top:1px; }
+.tab-hd { background:LightBlue; overflow:hidden; zoom:1; margin:0px; padding:0px; }
+.tab-hd li{ float:left; width:80px; color:#fff; text-align:center; cursor:pointer;margin:0px; padding:0px; }
+.tab-hd li.active{ background:#0099ff;margin:0px;margin:0px; padding:0px;}
+.tab-bd li.tab-li{display:none; border-top:0 none;margin:0px; padding:0px; font-size:13px; width:100%;}
+ul.ul-con{  width:100%;}
+ul.ul-con li{  padding:0px 10px 0px 20px; line-height:25px;}
+span.li-right{ position:absolute; left:200px;}
+.tab ul li{ font-weight:normal;}
+.num{ color:red; padding-left:1px;}
+.num2{ color:red; font-size:12px;}
+</style>
+</head>
+<body onLoad="iFrameHeight()">
+<script type="text/javascript" language="javascript">
+    function iFrameHeight() {
+        var ifm = document.getElementById("mainFrame");
+        var outer = document.getElementById("outer");
+        ifm.height = document.body.scrollHeight - 80;
+    }
+
+</script>
+
+<div id="top">
+	<div class="stretch">
+		<iframe height="100%" width="100%" border="0" src="index/top?vcode=${reUserObj.vcode!''}" id="main" name="topFrame" marginwidth="0" marginheight="0" frameborder="0" scrolling="auto"   style="overflow-x: hidden;"></iframe>
+    </div>
+</div>
+
+<div id="outer" >
+    <iframe width="100%" height="100%"  border="0"   src="index/center?vcode=${reUserObj.vcode!''}" id="mainFrame" name="mainFrame" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" style="overflow-x: hidden; "></iframe>
+
+</div>
+
+
+
+<script type="text/javascript">
+    $(function() {
+    	/*
+        function tabs(tabTit, on, tabCon) {
+            $(tabCon).each(function() {
+                $(this).children().eq(0).show();
+            });
+            $(tabTit).each(function() {
+                $(this).children().eq(0).addClass(on);
+            });
+            $(tabTit).children().hover(function() {
+            showData($(this).attr("type"));
+                $(this).addClass(on).siblings().removeClass(on);
+                var index = $(tabTit).children().index(this);
+                $(tabCon).children().eq(index).show().siblings().hide();
+            });
+        }
+        tabs(".tab-hd", "active", ".tab-bd");*/
+    });
+
+    var done = "";
+    function showData(optype) {
+        if (done.indexOf(optype) < 0) {
+            var params = "opType=" + optype + "&time=" + (new Date()).getTime();
+            $.ajax({ url: "http://dhg.5s-travel.com/DHG/WebService/indexDataInterface.aspx?" + params,
+                dataType: 'text',
+                success: function(result) {
+                    if (result.length > 0) {
+                        eval(result);
+                        setDate(result);
+                    }
+                },
+                error: function(data) {
+                    alert("查询出错" + data.responseText);
+                }
+            });
+            done += "|" + optype;
+        }
+    }
+
+
+    function setDate(result) {
+        switch (result.optype) {
+            case "Now":
+                $("#slyjs").html(result.lyjdws);
+                $("#slyjyhs").html(result.lyjyhs);
+                $("#slxss").html(result.lxsdws) ;
+                $("#slxsyhs").html(result.lxsyhs);
+                $("#sljtds").html(result.tds) ;
+                $("#sljyks").html(result.tys) ;
+                $("#sljsblxss").html(result.lxss) ;
+                break;
+            case "WEEK":
+            case "MONTH":
+            case "QUARTER":
+            case "YEAR":
+                $("#" + result.optype.substr(0, 1).toLowerCase() + "xzlyjyhs").html(result.xzlyjyhs);
+                $("#" + result.optype.substr(0, 1).toLowerCase() + "xzlxsyhs").html(result.xzlxsyhs);
+                $("#" + result.optype.substr(0, 1).toLowerCase() + "xztds").html(result.xztds);
+                $("#" + result.optype.substr(0, 1).toLowerCase() + "xzyks").html(result.xzyks);
+                for (var i = 1; i < 5; i++) {
+                    $("#" + result.optype.substr(0, 1).toLowerCase() + "xztds" + i).html(result["dataType" + i].ts);
+                    $("#" + result.optype.substr(0, 1).toLowerCase() + "xzyks" + i).html(result["dataType" + i].tys);
+                }
+                break;
+        }
+    
+    }
+
+</script>
+
+<script  language="javascript">
+    var clickClock = null;
+    $(document).ready(function() {
+    	/*
+        GetGG();
+        getUsedData();
+        showData("Now");
+        $(".tab").fadeToggle("slow");
+        $("#piecon").fadeToggle("slow");
+        setTimeout('$("#right").fadeIn("slow")', 2000);
+        setInterval("done='';", 60 * 1000);
+        clickClock=setTimeout('Message.minbtn.click();', 4000);*/
+    });
+
+    
+    function GetGG() {
+        var params = "time=" + (new Date()).getTime();
+        $.ajax({ url: "http://dhg.5s-travel.com/DHG/WebService/indexInterface.aspx?" + params,
+            dataType: 'text',
+            success: function(result) {
+                $("#ulGG")[0].innerHTML = result;
+            },
+            error: function(data) {
+                alert("查询出错" + data.responseText);
+            }
+        });
+    }
+
+    function AddNewWin(URL, Title) {
+        //alert(window.frames["mainFrame"].AddNewWin);
+        window.frames["mainFrame"].AddNewWin(URL, Title);
+    }
+</script>
+
+<script language="javascript">
+    iFrameHeight();
+    var Message = {
+        set: function() {//最小化与恢复状态切换
+            var set = this.minbtn.status == 1 ? [0, 1, 'block', this.char[0], '最小化'] : [1, 0, 'none', this.char[1], '恢复'];
+            this.minbtn.status = set[0];
+            this.win.style.borderBottomWidth = set[1];
+            //this.content.style.display = set[2];
+            this.minbtn.innerHTML = set[3];
+            this.minbtn.title = set[4];
+            $("#bottom_min").html(set[3]);
+             $("#bottom_min").attr("title",set[4]);
+            if (this.minbtn.status == 1) {
+                //document.getElementById("right").style.width = "150px";
+                $("#right").animate({ width: 150, height: 25 }, "slow");
+                
+            }
+            else {
+                //document.getElementById("right").style.width = "400px";
+                $("#right").animate({ width: 400, height: 485 }, "slow");
+            }
+            if (clickClock)
+                clearTimeout(clickClock);
+        },
+        close: function() {//关闭
+            if (clickClock)
+                clearTimeout(clickClock);
+            this.win.style.display = 'none';
+            window.onscroll = null;
+            document.getElementById("right").style.display = 'none';
+        },
+        setOpacity: function(x) {//设置透明度
+            var v = x >= 100 ? '' : 'Alpha(opacity=' + x + ')';
+            this.win.style.visibility = x <= 0 ? 'hidden' : 'visible'; //IE有绝对或相对定位内容不随父透明度变化的bug
+            this.win.style.filter = v;
+            this.win.style.opacity = x / 100;
+        },
+        show: function() {//渐显
+            document.getElementById("right").style.width = "150px";
+            clearInterval(this.timer2);
+            var me = this, fx = this.fx(0, 100, 0.1), t = 0;
+            this.timer2 = setInterval(function() {
+
+                t = fx();
+                me.setOpacity(t[0]);
+                if (t[1] == 0) { clearInterval(me.timer2) }
+            }, 10);
+
+        },
+        fx: function(a, b, c) {//缓冲计算
+            var cMath = Math[(a - b) > 0 ? "floor" : "ceil"], c = c || 0.1;
+            return function() { return [a += cMath((b - a) * c), a - b] }
+        },
+        getY: function() {//计算移动坐标
+            var d = document, b = document.body, e = document.documentElement;
+            var s = Math.max(b.scrollTop, e.scrollTop);
+            var h = /BackCompat/i.test(document.compatMode) ? b.clientHeight : e.clientHeight;
+            var h2 = this.win.offsetHeight;
+            return { foot: s + h + h2 + 2 + 'px', top: s + h - h2 - 2 + 'px' }
+        },
+        moveTo: function(y) {//移动动画
+            clearInterval(this.timer);
+            var me = this, a = parseInt(this.win.style.top) || 0;
+            var fx = this.fx(a, parseInt(y));
+            var t = 0;
+            this.timer = setInterval(function() {
+                t = fx();
+                me.win.style.top = t[0] + 'px';
+                if (t[1] == 0) {
+                    clearInterval(me.timer);
+                    me.bind();
+                }
+            }, 10);
+        },
+        bind: function() {//绑定窗口滚动条与大小变化事件
+            var me = this, st, rt;
+            window.onscroll = function() {
+                clearTimeout(st);
+                clearTimeout(me.timer2);
+                me.setOpacity(0);
+                st = setTimeout(function() {
+                    me.win.style.top = me.getY().top;
+                    me.show();
+                }, 600);
+            };
+            window.onresize = function() {
+                clearTimeout(rt);
+                rt = setTimeout(function() { me.win.style.top = me.getY().top }, 100);
+                iFrameHeight();
+            }
+        },
+        init: function() {//创建HTML
+            function $(id) { return document.getElementById(id) };
+            this.win = $('msg_win');
+            var set = { minbtn: 'msg_min', closebtn: 'msg_close', title: 'msg_title', content: 'msg_content' };
+            var bottomset = { bottomminbtn: 'msg_min', bottomclosebtn: 'msg_close' };
+            for (var Id in set) { this[Id] = $(set[Id]) };
+            var me = this;
+            this.minbtn.onclick = function() { me.set(); this.blur() };
+            this.closebtn.onclick = function() { me.close() };
+            this.char = navigator.userAgent.toLowerCase().indexOf('firefox') + 1 ? ['_', '::', '×'] : ['0', '2', 'r']; //FF不支持webdings字体
+            this.minbtn.innerHTML = this.char[0];
+            this.closebtn.innerHTML = this.char[2];
+
+            var bottomset = { bottomminbtn: 'bottom_min', bottomclosebtn: 'bottom_close' };
+            for (var Id in bottomset) { this[Id] = $(bottomset[Id]) };
+            this.bottomminbtn.onclick = function() { me.set(); this.blur() };
+            this.bottomclosebtn.onclick = function() { me.close() };
+            this.bottomminbtn.innerHTML = this.char[0];
+            this.bottomclosebtn.innerHTML = this.char[2];
+
+            setTimeout(function() {//初始化最先位置
+                me.win.style.display = 'block';
+                me.win.style.top = me.getY().foot;
+                me.moveTo(me.getY().top);
+            }, 0);
+            return this;
+        }
+    };
+    Message.init();
+</script>
+ 
+  
+
+</body>
+</html>
+

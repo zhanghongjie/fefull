@@ -1,0 +1,66 @@
+<!--#
+	var userInfo = @com.sys.cache.SysInfoCache.getInstance().getUserInfoBean(request);
+  -->
+<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery-ui-1.10.3.custom.min.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/css/ui.jqgridb.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/js/jquery-loadmask-0.4/jquery.loadmask.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/css/base.css">
+<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.tree-multiselect.min.css">
+<script type="text/javascript" src="${ctx}/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/jquery-loadmask-0.4/jquery.loadmask.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/jquery.validate.js"></script>
+<script type="text/javascript" src="${ctx}/js/jquery-ui-1.10.3.custom.js"></script>
+<script type="text/javascript" src="${ctx}/js/jquery.jqGrid.src.js"></script>
+<script type="text/javascript" src="${ctx}/js/datePicker/WdatePicker.js"  ></script>
+<script type="text/javascript" src="${ctx}/js/jquery.tree-multiselect.js"></script>
+<!--#
+	if(userInfo!=null && userInfo.sysUser !=null && userInfo.sysUser.LAN_TYPE!=null){
+		//中文
+		if(userInfo.sysUser.LAN_TYPE ==1 ){
+		-->
+			<script type="text/javascript" src="${ctx}/js/i18n/grid.locale-cn.js"></script>
+			<script type="text/javascript" src="${ctx}/js/localization/messages_zh.js"></script>
+		<!--#
+		}else if(userInfo.sysUser.LAN_TYPE ==3 ){
+		-->
+			<script type="text/javascript" src="${ctx}/js/i18n/grid.locale-ar.js"></script>
+			<script type="text/javascript" src="${ctx}/js/localization/messages_ar.js"></script>
+		<!--#
+		}else{//默认英文
+		-->
+			<script type="text/javascript" src="${ctx}/js/i18n/grid.locale-en.js"></script>
+		<!--#
+		}
+	}else{
+	-->
+			<script type="text/javascript" src="${ctx}/js/i18n/grid.locale-en.js"></script>
+	<!--#
+	}
+  -->
+<script type="text/javascript" src="${ctx}/js/comm.js"></script>
+<style type="text/css">
+.txt {
+	height: 40px;
+	line-height: 40px;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.div {
+	border: 1px solid #000000;
+}
+
+.ui-widget {
+	font-size: 15px;
+}
+
+body {
+	font-size: 12px;
+}
+.ui-widget{font-size: 12px;}
+
+#qryTable{border-collapse:collapse;border:none;}
+#qryTable td{border:solid #aed0ea 1px;padding: 5px};
+</style>

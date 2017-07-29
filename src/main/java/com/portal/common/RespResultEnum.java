@@ -16,7 +16,9 @@ public enum RespResultEnum {
 	/**
 	 * 业务返回码
 	 */
-	LOGIN_ERR("2001", "帐号或者密码错误");
+	LOGIN_ERR("2001", "帐号或者密码错误"),
+	DATA_EXIST("2002", "记录已存在"),
+	DATA_NOEXIST("2003", "记录不存在");
 	
 	String respCode;
 	

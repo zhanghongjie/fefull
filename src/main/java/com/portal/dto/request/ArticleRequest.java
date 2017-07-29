@@ -1,5 +1,8 @@
 package com.portal.dto.request;
 
+import java.util.List;
+
+import com.portal.dto.ArticleTag;
 import com.portal.dto.Category;
 import com.portal.dto.Origin;
 
@@ -11,16 +14,28 @@ public class ArticleRequest {
 	
 	private Origin origin;
 	
+	private String mainSource;
+	
 	private String maintxt;
 	
 	private String cover;
 	
 	private Category category;
 	
-	private Integer[] tagclouds;
+	private List<ArticleTag> tagclouds;
 	
 	private String reprint;
 	
+	private Integer editType;
+	
+	public Integer getEditType() {
+		return editType;
+	}
+
+	public void setEditType(Integer editType) {
+		this.editType = editType;
+	}
+
 	public Integer getArticleId() {
 		return articleId;
 	}
@@ -69,11 +84,11 @@ public class ArticleRequest {
 		this.category = category;
 	}
 
-	public Integer[] getTagclouds() {
+	public List<ArticleTag> getTagclouds() {
 		return tagclouds;
 	}
 
-	public void setTagclouds(Integer[] tagclouds) {
+	public void setTagclouds(List<ArticleTag> tagclouds) {
 		this.tagclouds = tagclouds;
 	}
 
@@ -84,4 +99,13 @@ public class ArticleRequest {
 	public void setReprint(String reprint) {
 		this.reprint = reprint;
 	}
+
+	public String getMainSource() {
+		return mainSource;
+	}
+
+	public void setMainSource(String mainSource) {
+		this.mainSource = mainSource;
+	}
+	
 }

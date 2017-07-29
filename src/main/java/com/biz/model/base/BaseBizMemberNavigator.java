@@ -33,6 +33,14 @@ public abstract class BaseBizMemberNavigator<M extends BaseBizMemberNavigator<M>
 		return get("FK_NAVIGATOR");
 	}
 
+	public void setFkNavigatorCategory(java.lang.Integer fkNavigatorCategory) {
+		set("Fk_NAVIGATOR_CATEGORY", fkNavigatorCategory);
+	}
+
+	public java.lang.Integer getFkNavigatorCategory() {
+		return get("Fk_NAVIGATOR_CATEGORY");
+	}
+
 	public void setMEMO(java.lang.String MEMO) {
 		set("MEMO", MEMO);
 	}

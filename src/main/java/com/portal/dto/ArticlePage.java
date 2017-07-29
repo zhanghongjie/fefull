@@ -32,7 +32,9 @@ public class ArticlePage extends Page implements BaseDto<ReBean<Record>, Article
 			article.setArticleId(record.getInt("PK_ARTICLE"));
 			article.setTitle(record.getStr("TITLE"));
 			article.setOrigin(new Origin(record.getInt("IS_ORIGINAL")));
+			article.setEditType(record.getInt("EDIT_TYPE"));
 			article.setMaintxt(record.getStr("CONTENT"));
+			article.setMainSource(record.getStr("PRE_CONTENT"));
 			article.setCover(record.getStr("COVER_PICTURE"));
 			article.setPublishedDate(DateUtil.getCurrDate(record.getDate("PUBLISHED_DATE"), "yyyy.MM.dd HH:mm:ss") );
 			article.setReprint(record.getStr("REPRINT_ADDRESS"));
@@ -40,6 +42,7 @@ public class ArticlePage extends Page implements BaseDto<ReBean<Record>, Article
 			article.setCategory(new ArticleCategory(record.getInt("PK_ARTICLE_CATEGORY"), record.getStr("CATEGORY_NAME")));
 			article.setFav(record.getLong("favs"));
 			article.setLike(record.getLong("likes"));
+			article.setTagNames(record.getStr("tagNames"));
 			
 			reList.add(article);
 		}

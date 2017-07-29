@@ -1,13 +1,18 @@
 package com.biz.mgr;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.biz.model.BizArticleCollection;
+import com.biz.model.BizMember;
 import com.frame.utils.ArgsTool;
 import com.frame.utils.Fun;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import com.portal.dto.request.ArticleRequest;
 import com.sys.bean.ReBean;
 
 public class BizArticleCollectionMgr {
@@ -70,4 +75,29 @@ public class BizArticleCollectionMgr {
 		}
 		return false;
 	}
+	
+	public boolean isExist(Integer memberId, Integer articleId){
+		StringBuilder msb = new StringBuilder("select 1 from biz_article_collection where fk_member = ? and fk_article = ?");
+		BizArticleCollection bac = BizArticleCollection.dao.findFirst(msb.toString(), memberId,articleId);
+		if(Fun.eqNull(bac))
+			return false;
+		return true;
+	}
+
+	public void save(BizMember bizMember, ArticleRequest articleRequest) {
+		BizArticleCollection articleCollection = new BizArticleCollection();
+		articleCollection.setFkArticle(articleRequest.getArticleId());
+		articleCollection.setFkMember(bizMember.getPkMember());
+		articleCollection.setMemberCreateById(bizMember.getPkMember());
+		articleCollection.setMemberCreateByTime(new Date());
+		articleCollection.setMemberUpdateById(bizMember.getPkMember());
+		articleCollection.setMemberUpdateByTime(new Date());
+		
+		articleCollection.save();
+	}
+
+	public void delete(BizMember bizMember, ArticleRequest articleRequest) {
+		Db.update("delete from biz_article_collection  where fk_member = ? and fk_article = ?", bizMember.getPkMember(), articleRequest.getArticleId());
+	}
+	
 }

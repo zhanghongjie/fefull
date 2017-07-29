@@ -10,9 +10,12 @@ import com.biz.commom.FefullEnum;
 import com.biz.model.BizArticle;
 import com.biz.model.BizArticleTagRef;
 import com.biz.model.BizMember;
+import com.frame.exception.BusinessException;
 import com.frame.utils.ArgsTool;
 import com.frame.utils.Fun;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import com.portal.dto.ArticleTag;
 import com.portal.dto.request.ArticleRequest;
 import com.sys.bean.ReBean;
 
@@ -60,6 +63,9 @@ public class BizArticleMgr {
 		if(!Fun.eqNull(mQryMap.get("keyword"))){
 			msb.append(" AND t1.TITLE like @keyword ");
 		}
+		if(!Fun.eqNull(mQryMap.get("pkMember"))){
+			msb.append(" AND t1.FK_MEMBER like @pkMember ");
+		}
 		msb.append(" and t1.IS_VALID = 1");
 		
 		return ArgsTool.reSql(sb, msb);
@@ -87,16 +93,21 @@ public class BizArticleMgr {
 		return false;
 	}
 	
+	public BizArticle getObjById(Integer id){
+		return this.getObjById(id, null);
+	}
+	
 	/**
 	 * 根据ID查询文章
 	 * @param id
 	 * @return
 	 */
-	public BizArticle getObjById(Integer id){
+	public BizArticle getObjById(Integer id, BizMember member){
 		String sql = 
-			"SELECT t1.`PK_ARTICLE`, t1.`TITLE`, t1.`IS_ORIGINAL`, t1.`CONTENT`, t1.`COVER_PICTURE`, t1.`PUBLISHED_DATE`, t1.`REPRINT_ADDRESS`,\n" +
+			"SELECT t1.`PK_ARTICLE`, t1.`TITLE`, t1.`IS_ORIGINAL`, t1.EDIT_TYPE, t1.`CONTENT`, t1.PRE_CONTENT, t1.`COVER_PICTURE`, t1.`PUBLISHED_DATE`, t1.`REPRINT_ADDRESS`,\n" +
 			"         t2.`PK_MEMBER`, t2.`LOGIN_NAME`, t2.`HEAD_PORTRAIT`, t3.`PK_ARTICLE_CATEGORY` , t3.`CATEGORY_NAME`,\n" + 
-			"         COUNT(t4.`PK_ARTICLE_COLLECTION`) AS favs, COUNT(t5.`PK_ARTICLE_LIKE`) AS likes\n" + 
+			"         COUNT(t4.`PK_ARTICLE_COLLECTION`) AS favs, COUNT(t5.`PK_ARTICLE_LIKE`) AS likes,\n" + 
+			"		CASE WHEN t4.FK_MEMBER = ? THEN 1 ELSE 0 END AS isCollection\n" + 
 			"  FROM biz_article t1\n" + 
 			"  INNER JOIN biz_member t2 ON t1.`FK_MEMBER` = t2.`PK_MEMBER`\n" + 
 			"  INNER JOIN biz_article_category t3 ON t1.`FK_ARTICLE_CATEGORY` = t3.`PK_ARTICLE_CATEGORY`\n" + 
@@ -104,9 +115,9 @@ public class BizArticleMgr {
 			"  LEFT JOIN biz_article_like t5 ON t1.`PK_ARTICLE` = t5.`FK_ARTICLE`\n" + 
 			"  WHERE t1.`PK_ARTICLE` = ?\n" + 
 			"  GROUP BY t1.`PK_ARTICLE`, t1.`TITLE`, t1.`IS_ORIGINAL`, t1.`CONTENT`, t1.`COVER_PICTURE`, t1.`PUBLISHED_DATE`, t1.`REPRINT_ADDRESS`,\n" + 
-			"         t2.`PK_MEMBER`, t2.`LOGIN_NAME`, t2.`HEAD_PORTRAIT`, t3.`PK_ARTICLE_CATEGORY` , t3.`CATEGORY_NAME`";
+			"         t2.`PK_MEMBER`, t2.`LOGIN_NAME`, t2.`HEAD_PORTRAIT`, t3.`PK_ARTICLE_CATEGORY` , t3.`CATEGORY_NAME`, t4.FK_MEMBER";
 
-		BizArticle bizArticle = BizArticle.dao.findFirst(sql, id);
+		BizArticle bizArticle = BizArticle.dao.findFirst(sql, null==member ? -1 : member.getPkMember(), id);
 		return bizArticle;
 	}
 	
@@ -120,7 +131,8 @@ public class BizArticleMgr {
 		StringBuilder sb = new StringBuilder("");
 		sb.append("SELECT\n" +
 				"  t1.`PK_ARTICLE`,\n" + 
-				"  t1.`TITLE`,\n" + 
+				"  t1.`TITLE`,\n" +
+				"  t1.`EDIT_TYPE`,\n" + 
 				"  t1.`IS_ORIGINAL`,\n" + 
 				"  t1.`CONTENT`,\n" + 
 				"  t1.`COVER_PICTURE`,\n" + 
@@ -132,7 +144,8 @@ public class BizArticleMgr {
 				"  t3.`PK_ARTICLE_CATEGORY`,\n" + 
 				"  t3.`CATEGORY_NAME`,\n" + 
 				"  COUNT(t4.`PK_ARTICLE_COLLECTION`) AS favs,\n" + 
-				"  COUNT(t5.`PK_ARTICLE_LIKE`) AS likes\n" + 
+				"  COUNT(t5.`PK_ARTICLE_LIKE`) AS likes,\n" + 
+				"  GROUP_CONCAT(t7.`TAG_NAME`) as tagNames\n" + 
 				"FROM\n" + 
 				"  biz_article t1\n" + 
 				"  INNER JOIN biz_member t2\n" + 
@@ -143,6 +156,8 @@ public class BizArticleMgr {
 				"    ON t1.`PK_ARTICLE` = t4.`FK_ARTICLE`\n" + 
 				"  LEFT JOIN biz_article_like t5\n" + 
 				"    ON t1.`PK_ARTICLE` = t5.`FK_ARTICLE`\n" + 
+				"  LEFT JOIN biz_article_tag_ref t6 ON t1.`PK_ARTICLE` = t6.`FK_ARTICLE`\n" +
+				"  LEFT JOIN biz_article_tag t7 ON t6.`FK_ARTICLE_TAG` = t7.`PK_ARTICLE_TAG`\n" +
 				" group by t1.`PK_ARTICLE`,\n" + 
 				"  t1.`TITLE`,\n" + 
 				"  t1.`IS_ORIGINAL`,\n" + 
@@ -155,7 +170,7 @@ public class BizArticleMgr {
 				"  t2.`HEAD_PORTRAIT`,\n" + 
 				"  t3.`PK_ARTICLE_CATEGORY`,\n" + 
 				"  t3.`CATEGORY_NAME`\n" );
-		if(Fun.eqNull(mQryMap.get("sortOrder")) || mQryMap.get("sortOrder").equals(FefullEnum.SortOrder.NEWEST.getValue())){
+		if(Fun.eqNull(mQryMap.get("sort")) || mQryMap.get("sort").equals(FefullEnum.Sort.NEWEST.getValue())){
 			sb.append(" order by t1.`PUBLISHED_DATE` desc");
 		} else{
 			sb.append(" order by COUNT(t4.`PK_ARTICLE_COLLECTION`) desc");
@@ -168,7 +183,7 @@ public class BizArticleMgr {
 				StringBuilder ssb = new StringBuilder("select A.* from (");
 				ssb.append(qrySql)
 				   .append(") A")
-				   .append("INNER JOIN biz_article_collection B ON A.PK_ARTICLE = B.FK_ARTICLE AND B.FK_MEMBER = @memberId");
+				   .append(" INNER JOIN biz_article_collection B ON A.PK_ARTICLE = B.FK_ARTICLE AND B.FK_MEMBER = @memberId");
 				qrySql = ssb.toString();
 			}
 			reBean = ArgsTool.getPageObj(qrySql, mQryMap);
@@ -187,6 +202,7 @@ public class BizArticleMgr {
 		bizArticle.setFkArticleCategory(articleRequest.getCategory().getCategoryId());
 		bizArticle.setTITLE(articleRequest.getTitle());
 		bizArticle.setCONTENT(articleRequest.getMaintxt());
+		bizArticle.setPreContent(articleRequest.getMainSource());
 		bizArticle.setPublishedDate(date);
 		bizArticle.setIsOriginal(articleRequest.getOrigin().getOriginId());
 		bizArticle.setReprintAddress(articleRequest.getReprint());
@@ -195,14 +211,15 @@ public class BizArticleMgr {
 		bizArticle.setMemberCreateByTime(date);
 		bizArticle.setMemberUpdateById(bizMember.getPkMember());
 		bizArticle.setMemberUpdateByTime(date);
+		bizArticle.setEditType(articleRequest.getEditType());
 		bizArticle.save();
 		
 		if(null != articleRequest.getTagclouds()){
 			BizArticleTagRef bizArticleTagRef;
-			for (Integer tagCloudsId : articleRequest.getTagclouds()) {
+			for (ArticleTag tagCloud : articleRequest.getTagclouds()) {
 				bizArticleTagRef = new BizArticleTagRef();
 				bizArticleTagRef.setFkArticle(bizArticle.getPkArticle());
-				bizArticleTagRef.setFkArticleTag(tagCloudsId);
+				bizArticleTagRef.setFkArticleTag(tagCloud.getTagcloudId());
 				bizArticleTagRef.setMemberCreateById(bizMember.getPkMember());
 				bizArticleTagRef.setMemberCreateByTime(date);
 				bizArticleTagRef.setMemberUpdateById(bizMember.getPkMember());
@@ -213,4 +230,64 @@ public class BizArticleMgr {
 		
 		return getObjById(bizArticle.getPkArticle());
 	}
+	
+	/**
+	 * 更新文章
+	 * @param bizMember
+	 * @param articleRequest
+	 * @return
+	 */
+	public BizArticle update(BizMember bizMember, ArticleRequest articleRequest){
+		Date date = new Date();
+		BizArticle article = BizArticle.dao.findById(articleRequest.getArticleId());
+		if(!article.getFkMember().equals(bizMember.getPkMember())){
+			throw new BusinessException("当前用户无权限修改文章");
+		}
+		article.setFkArticleCategory(articleRequest.getCategory().getCategoryId());
+		article.setTITLE(articleRequest.getTitle());
+		article.setPreContent(articleRequest.getMainSource());
+		article.setCONTENT(articleRequest.getMaintxt());
+		article.setIsOriginal(articleRequest.getOrigin().getOriginId());
+		article.setReprintAddress(articleRequest.getReprint());
+		article.setCoverPicture(articleRequest.getCover());
+		article.setMemberUpdateById(bizMember.getPkMember());
+		article.setMemberUpdateByTime(date);
+		article.update();
+		
+		// 删除原先的文章标签
+		Db.update("delete from biz_article_tag_ref where fk_article = ?", article.getPkArticle());
+		
+		if(null != articleRequest.getTagclouds()){
+			BizArticleTagRef bizArticleTagRef;
+			for (ArticleTag tagCloud : articleRequest.getTagclouds()) {
+				bizArticleTagRef = new BizArticleTagRef();
+				bizArticleTagRef.setFkArticle(article.getPkArticle());
+				bizArticleTagRef.setFkArticleTag(tagCloud.getTagcloudId());
+				bizArticleTagRef.setMemberCreateById(bizMember.getPkMember());
+				bizArticleTagRef.setMemberCreateByTime(date);
+				bizArticleTagRef.setMemberUpdateById(bizMember.getPkMember());
+				bizArticleTagRef.setMemberUpdateByTime(date);
+				bizArticleTagRef.save();
+			}
+		}
+		
+		return getObjById(article.getPkArticle());
+		
+	}
+
+	/**
+	 * 删除文章
+	 * @param bizMember
+	 * @param articleRequest
+	 * @return
+	 */
+	public boolean delete(BizMember bizMember, ArticleRequest articleRequest) {
+		BizArticle article = BizArticle.dao.findById(articleRequest.getArticleId());
+		if(!article.getFkMember().equals(bizMember.getPkMember())){
+			throw new BusinessException("当前用户无权限删除文章");
+		}
+		article.delete();
+		return true;
+	}
+	
 }

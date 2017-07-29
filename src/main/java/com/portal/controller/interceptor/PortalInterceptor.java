@@ -37,22 +37,24 @@ public class PortalInterceptor implements Interceptor {
 		HttpServletResponse httpResponse = ai.getController().getResponse();
 //		String uri = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
 		
+		String token = httpRequest.getHeader(AUTHORIZATION);
+		
 		ThreadContext.getContext().put(ThreadContext.KEY_REQUEST, httpRequest);
 		ThreadContext.getContext().put(ThreadContext.KEY_RESPONSE, httpResponse);
 		ThreadContext.getContext().put(ThreadContext.KEY_FROM_WEB, true);
+		// 绑定用户到线程上下文
+		ThreadContext.getContext().put(ThreadContext.KEY_USER_CONTEXT, Fun.eqNull(token)? null : TokenService.getInstance().get(token));
 		
 		Response response = null;
 		try {
 			PermessionLimit permession = ai.getMethod().getAnnotation(PermessionLimit.class);
 			if (null != permession && permession.limit()) {
-				String token = httpRequest.getHeader(AUTHORIZATION);
 				if (Fun.eqNull(token) || !TokenService.getInstance().hasToken(token)) 
 					throw new NotLoginException("用户未登录");
-				// 绑定用户到线程上下文
-				ThreadContext.getContext().put(ThreadContext.KEY_USER_CONTEXT, TokenService.getInstance().get(token));
 			}
 			// 设置请求Json串，并传入方法
 			String reqPayload = getRequestPayload(ai.getController().getRequest());
+			log.info(">>>收到前端请求：" + reqPayload);
 			if(!Fun.eqNull(reqPayload)){
 				RequestJsonClass jsonClass = ai.getMethod().getAnnotation(RequestJsonClass.class);
 				if(null != jsonClass){

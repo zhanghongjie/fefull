@@ -57,14 +57,14 @@ public class FefullEnum {
     /**
      * 排序方式
      */
-    public enum SortOrder{
-    	NEWEST(1),
-    	HOT(2);
-    	SortOrder(int value) {
+    public enum Sort{
+    	NEWEST("1"),
+    	HOT("2");
+    	Sort(String value) {
     		this.value = value;
     	}
-    	private final int value;
-    	public int getValue() {
+    	private final String value;
+    	public String getValue() {
     		return value;
     	}
     }

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.biz.model.BizMember;
 import com.frame.utils.ArgsTool;
 import com.frame.utils.Fun;
+import com.frame.utils.MD5;
 import com.jfinal.plugin.activerecord.Record;
 import com.portal.dto.request.LoginRequest;
 import com.sys.bean.ReBean;
@@ -75,6 +76,6 @@ public class BizMemberMgr {
 
 	public BizMember getBizMemberInfo(LoginRequest loginRequest) {
 		return BizMember.dao.findFirst("select * from biz_member where login_name = ? and login_pwd = ?", 
-				loginRequest.getUserName(), loginRequest.getPassword());
+				loginRequest.getUserName(), MD5.encrypt(loginRequest.getPassword()));
 	}
 }

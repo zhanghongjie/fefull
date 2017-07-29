@@ -6,8 +6,15 @@ public class Navigator {
     private String navigatorName;
     private String navigatorUrl;
     private String description;
-    private Long isFavor;
+    private String isFavor;
+    private Integer isSystem;
     
+	public Integer getIsSystem() {
+		return isSystem;
+	}
+	public void setIsSystem(Integer isSystem) {
+		this.isSystem = isSystem;
+	}
 	public Integer getNavigatorId() {
 		return navigatorId;
 	}
@@ -32,10 +39,10 @@ public class Navigator {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Long getIsFavor() {
+	public String getIsFavor() {
 		return isFavor;
 	}
-	public void setIsFavor(Long isFavor) {
+	public void setIsFavor(String isFavor) {
 		this.isFavor = isFavor;
 	}
     

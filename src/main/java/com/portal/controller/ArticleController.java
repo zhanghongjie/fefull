@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.biz.commom.FefullEnum;
 import com.biz.mgr.BizArticleCategoryMgr;
+import com.biz.mgr.BizArticleCollectionMgr;
 import com.biz.mgr.BizArticleMgr;
 import com.biz.mgr.BizArticleTagMgr;
 import com.biz.model.BizArticle;
@@ -81,7 +83,7 @@ public class ArticleController extends Controller{
 		mQryMap.put("categoryId", articleListRequest.getCategoryId());
 		mQryMap.put("tagCloudId", articleListRequest.getTagcloudId());
 		mQryMap.put("keyword", articleListRequest.getKeyword());
-		mQryMap.put("sortOrder", articleListRequest.getSortOrder());
+		mQryMap.put("sort", articleListRequest.getSort());
 		mQryMap.put("nowPage", articleListRequest.getNowPage());
 		mQryMap.put("pageSize", articleListRequest.getPageSize());
 		
@@ -100,24 +102,84 @@ public class ArticleController extends Controller{
 		if(null == articleRequest || null == articleRequest.getArticleId()){
 			return new Response().failure(RespResultEnum.PARAMETER_ERR);
 		}
-		BizArticle bizArticle = BizArticleMgr.getInstance().getObjById(articleRequest.getArticleId());
+		BizMember bizMember = (BizMember)ThreadContext.getContext().get(ThreadContext.KEY_USER_CONTEXT);
+		BizArticle bizArticle = BizArticleMgr.getInstance().getObjById(articleRequest.getArticleId(), bizMember);
 		
 		return new Response().success(new Article().wrapper(bizArticle));
 	}
 	
 	/**
-	 * 创建文章
+	 * 创建/修改文章（根据ID判断）
 	 * @return
 	 */
 	@PermessionLimit
 	@RequestJsonClass(cls=ArticleRequest.class)
 	@Before(Tx.class)
-	public Response save(){
+	public Response saveOrUpdate(){
 		ArticleRequest articleRequest = getAttr(Constant.REQUEST_PARAM);
 		BizMember bizMember = (BizMember)ThreadContext.getContext().get(ThreadContext.KEY_USER_CONTEXT);
-		BizArticle bizArticle = BizArticleMgr.getInstance().save(bizMember, articleRequest);
+		BizArticle bizArticle;
+		if(Fun.eqNull(articleRequest.getArticleId())){
+			bizArticle = BizArticleMgr.getInstance().save(bizMember, articleRequest);
+		} else{
+			bizArticle = BizArticleMgr.getInstance().update(bizMember, articleRequest);
+		}
 		
 		return new Response().success(new Article().wrapper(bizArticle));
+	}
+	
+	/**
+	 * 修改文章
+	 * @return
+	 *//*
+	@PermessionLimit
+	@RequestJsonClass(cls=ArticleRequest.class)
+	@Before(Tx.class)
+	public Response update(){
+		ArticleRequest articleRequest = getAttr(Constant.REQUEST_PARAM);
+		BizMember bizMember = (BizMember)ThreadContext.getContext().get(ThreadContext.KEY_USER_CONTEXT);
+		BizArticle bizArticle = BizArticleMgr.getInstance().update(bizMember, articleRequest);
+		
+		return new Response().success(new Article().wrapper(bizArticle));
+	}*/
+	
+	/**
+	 * 删除文章
+	 * @return
+	 */
+	@PermessionLimit
+	@RequestJsonClass(cls=ArticleRequest.class)
+	@Before(Tx.class)
+	public Response delete(){
+		ArticleRequest articleRequest = getAttr(Constant.REQUEST_PARAM);
+		BizMember bizMember = (BizMember)ThreadContext.getContext().get(ThreadContext.KEY_USER_CONTEXT);
+		BizArticleMgr.getInstance().delete(bizMember, articleRequest);
+		
+		return new Response().success();
+	}
+	
+	/**
+	 * 获取我的文章列表
+	 * @return
+	 */
+	@PermessionLimit
+	@RequestJsonClass(cls=ArticleListRequest.class)
+	public Response getMyArticles(){
+		ArticleListRequest articleListRequest = getAttr(Constant.REQUEST_PARAM);
+		if(null == articleListRequest || null == articleListRequest.getNowPage() || null == articleListRequest.getPageSize()){
+			return new Response().failure(RespResultEnum.PARAMETER_ERR);
+		}
+		BizMember bizMember = (BizMember)ThreadContext.getContext().get(ThreadContext.KEY_USER_CONTEXT);
+		Map<String, String> mQryMap = new HashMap<>();
+		mQryMap.put("categoryId", articleListRequest.getCategoryId());
+		mQryMap.put("sort", String.valueOf(FefullEnum.Sort.NEWEST.getValue()));
+		mQryMap.put("nowPage", articleListRequest.getNowPage());
+		mQryMap.put("pageSize", articleListRequest.getPageSize());
+		mQryMap.put("pkMember", String.valueOf(bizMember.getPkMember()));
+		
+		ReBean<Record> reBean = BizArticleMgr.getInstance().getPageByFront(mQryMap);
+		
+		return new Response().success(new ArticlePage().wrapper(reBean));
 	}
 	
 	/**
@@ -133,7 +195,30 @@ public class ArticleController extends Controller{
 			return new Response().failure(RespResultEnum.PARAMETER_ERR);
 		}
 		BizMember bizMember = (BizMember)ThreadContext.getContext().get(ThreadContext.KEY_USER_CONTEXT);
-//		BizArticleCollectionMgr.getInstance().save(bizMember, articleRequest);
+		if(BizArticleCollectionMgr.getInstance().isExist(bizMember.getPkMember(), articleRequest.getArticleId())){
+			return new Response().failure(RespResultEnum.DATA_EXIST);
+		}
+		BizArticleCollectionMgr.getInstance().save(bizMember, articleRequest);
+		return new Response().success();
+	}
+	
+	/**
+	 * 取消收藏文章
+	 * @return
+	 */
+	@PermessionLimit
+	@RequestJsonClass(cls=ArticleRequest.class)
+	@Before(Tx.class)
+	public Response uncollection(){
+		ArticleRequest articleRequest = getAttr(Constant.REQUEST_PARAM);
+		if(null == articleRequest || null == articleRequest.getArticleId()){
+			return new Response().failure(RespResultEnum.PARAMETER_ERR);
+		}
+		BizMember bizMember = (BizMember)ThreadContext.getContext().get(ThreadContext.KEY_USER_CONTEXT);
+		if(!BizArticleCollectionMgr.getInstance().isExist(bizMember.getPkMember(), articleRequest.getArticleId())){
+			return new Response().failure(RespResultEnum.DATA_NOEXIST);
+		}
+		BizArticleCollectionMgr.getInstance().delete(bizMember, articleRequest);
 		return new Response().success();
 	}
 	
@@ -142,6 +227,7 @@ public class ArticleController extends Controller{
 	 * @return
 	 */
 	@PermessionLimit
+	@RequestJsonClass(cls=ArticleListRequest.class)
 	public Response queryCollectionPage(){
 		ArticleListRequest articleListRequest = getAttr(Constant.REQUEST_PARAM);
 		

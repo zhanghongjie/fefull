@@ -8,3 +8,6 @@ target/*
 work/
 logs/
 WebContent/WEB-INF/classes/*
+.gradle/
+build/
+

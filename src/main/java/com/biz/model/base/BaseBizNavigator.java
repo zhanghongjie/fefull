@@ -49,6 +49,14 @@ public abstract class BaseBizNavigator<M extends BaseBizNavigator<M>> extends Mo
 		return get("NAVIGATOR_URL");
 	}
 
+	public void setIsSystem(java.lang.Integer isSystem) {
+		set("IS_SYSTEM", isSystem);
+	}
+
+	public java.lang.Integer getIsSystem() {
+		return get("IS_SYSTEM");
+	}
+
 	public void setDESCRIPTION(java.lang.String DESCRIPTION) {
 		set("DESCRIPTION", DESCRIPTION);
 	}

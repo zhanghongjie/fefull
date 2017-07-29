@@ -19,6 +19,8 @@ public class Article implements BaseDto<BizArticle, Article>{
 	
 	private String maintxt;
 	
+	private String mainSource;
+	
 	private Member author;
 	
 	private Long fav;
@@ -35,6 +37,36 @@ public class Article implements BaseDto<BizArticle, Article>{
 	
 	private String reprint;
 	
+	private Integer isCollection;
+	
+	private String tagNames;
+	
+	private Integer editType;
+	
+	public Integer getEditType() {
+		return editType;
+	}
+
+	public void setEditType(Integer editType) {
+		this.editType = editType;
+	}
+
+	public String getTagNames() {
+		return tagNames;
+	}
+
+	public void setTagNames(String tagNames) {
+		this.tagNames = tagNames;
+	}
+
+	public Integer getIsCollection() {
+		return isCollection;
+	}
+
+	public void setIsCollection(Integer isCollection) {
+		this.isCollection = isCollection;
+	}
+
 	public Integer getArticleId() {
 		return articleId;
 	}
@@ -149,6 +181,14 @@ public class Article implements BaseDto<BizArticle, Article>{
 	public void setReprint(String reprint) {
 		this.reprint = reprint;
 	}
+	
+	public String getMainSource() {
+		return mainSource;
+	}
+
+	public void setMainSource(String mainSource) {
+		this.mainSource = mainSource;
+	}
 
 	@Override
 	public String toString() {
@@ -168,7 +208,9 @@ public class Article implements BaseDto<BizArticle, Article>{
 		this.setArticleId(d.getPkArticle());
 		this.setTitle(d.getTITLE());
 		this.setOrigin(new Origin(d.getIsOriginal()));
+		this.setEditType(d.getEditType());
 		this.setMaintxt(d.getCONTENT());
+		this.setMainSource(d.getPreContent());
 		this.setCover(d.getCoverPicture());
 		this.setPublishedDate(DateUtil.getCurrDate(d.getPublishedDate(), "yyyy.MM.dd HH:mm:ss") );
 		this.setReprint(d.getReprintAddress());
@@ -176,6 +218,7 @@ public class Article implements BaseDto<BizArticle, Article>{
 		this.setCategory(new ArticleCategory(d.getInt("PK_ARTICLE_CATEGORY"), d.getStr("CATEGORY_NAME")));
 		this.setFav(d.getLong("favs"));
 		this.setLike(d.getLong("likes"));
+		this.setIsCollection(d.getInt("isCollection"));
 		
 		List<ArticleTag> resList = new ArrayList<ArticleTag>();
 		List<BizArticleTag> list = BizArticleTagMgr.getInstance().getTagsByArticleId(d.getPkArticle());

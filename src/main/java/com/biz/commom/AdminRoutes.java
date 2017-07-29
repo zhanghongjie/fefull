@@ -18,6 +18,7 @@ public class AdminRoutes extends Routes {
 		add("/comment", BizArticleCommentController.class);
 		add("/tag", BizArticleTagController.class);
 		add("/navigatorCategory", BizNavigatorCategoryController.class);
+		add("/articleTag", BizArticleTagController.class);
 	}
 
 }

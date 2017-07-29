@@ -8,18 +8,18 @@ public class ArticleListRequest {
 	
 	private String keyword;
 	
-	private String sortOrder;
+	private String sort;
 	
 	private String nowPage;
 	
 	private String pageSize;
 	
-	public String getSortOrder() {
-		return sortOrder;
+	public String getSort() {
+		return sort;
 	}
 
-	public void setSortOrder(String sortOrder) {
-		this.sortOrder = sortOrder;
+	public void setSort(String sort) {
+		this.sort = sort;
 	}
 
 	public String getKeyword() {

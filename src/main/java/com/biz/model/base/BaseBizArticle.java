@@ -73,12 +73,28 @@ public abstract class BaseBizArticle<M extends BaseBizArticle<M>> extends Model<
 		return get("COVER_PICTURE_MIN");
 	}
 
+	public void setEditType(java.lang.Integer editType) {
+		set("EDIT_TYPE", editType);
+	}
+
+	public java.lang.Integer getEditType() {
+		return get("EDIT_TYPE");
+	}
+
 	public void setCONTENT(java.lang.String CONTENT) {
 		set("CONTENT", CONTENT);
 	}
 
 	public java.lang.String getCONTENT() {
 		return get("CONTENT");
+	}
+	
+	public void setPreContent(java.lang.String preContent) {
+		set("PRE_CONTENT", preContent);
+	}
+
+	public java.lang.String getPreContent() {
+		return get("PRE_CONTENT");
 	}
 
 	public void setPublishedDate(java.util.Date publishedDate) {
